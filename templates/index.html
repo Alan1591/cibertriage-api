@@ -1,92 +1,323 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Unificado de Gestión de Ciberdelitos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background-color: #f8f9fa; }
-        .card-header { background-color: #0d6efd; color: white; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema Unificado de Gestión de Ciberdelitos</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <!-- Leaflet CSS (Mapa) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+  <style>
+    body { background-color: #f4f6f9; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+    .header-title { background: #0f172a; color: white; padding: 1.5rem; text-align: center; }
+    .nav-pills .nav-link { color: #334155; font-weight: 600; cursor: pointer; }
+    .nav-pills .nav-link.active { background-color: #1e3a8a !important; color: white !important; }
+    .card { border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: none; }
+    #mapa { height: 350px; width: 100%; border-radius: 8px; }
+  </style>
 </head>
 <body>
-    <div class="container py-4">
-        <div class="card shadow-sm">
-            <div class="card-header text-center fw-bold fs-5">
-                Recepción de Denuncias y Triage
+
+  <header class="header-title shadow-sm">
+    <h2 class="fw-bold mb-0"><i class="bi bi-shield-lock-fill me-2"></i>Sistema Unificado de Gestión de Ciberdelitos</h2>
+    <small class="text-light opacity-75">Plataforma Digital de Recepción, Triage Policial y Elevación Judicial (Cero Papel)</small>
+  </header>
+
+  <div class="container-fluid mt-4 px-4">
+    
+    <!-- Pestañas Principales de Navegación -->
+    <ul class="nav nav-pills nav-fill mb-4 bg-white p-2 rounded shadow-sm" id="pills-tab">
+      <li class="nav-item">
+        <button class="nav-link active" id="btn-v1" onclick="cambiarPestana('content-consultas', 'btn-v1')">
+          <i class="bi bi-search me-2"></i>Ventana 1: Consultas y Alerta
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" id="btn-v2" onclick="cambiarPestana('content-denuncia', 'btn-v2')">
+          <i class="bi bi-file-earmark-text-fill me-2"></i>Ventana 2: Denuncia Digital
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" id="btn-v3" onclick="cambiarPestana('content-policial', 'btn-v3')">
+          <i class="bi bi-building-fill-lock me-2"></i>Ventana 3: Recepción Policial
+        </button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" id="btn-v4" onclick="cambiarPestana('content-judicial', 'btn-v4')">
+          <i class="bi bi-balance-scale me-2"></i>Ventana 4: Módulo Judicial
+        </button>
+      </li>
+    </ul>
+
+    <!-- Contenido de las Ventanas -->
+    <div class="tab-content" id="pills-tabContent">
+
+      <!-- VENTANA 1: CONSULTAS Y ALERTAS PREVENTIVAS -->
+      <div class="tab-pane fade show active" id="content-consultas" style="display:block;">
+        <div class="card p-4 mb-4">
+          <h4 class="card-title text-primary"><i class="bi bi-shield-check me-2"></i>Consulta Rápida de Indicadores</h4>
+          <p class="text-muted">Verifique CBU, CVU, Alias, Teléfono o Enlace sospechoso en la base unificada.</p>
+          <div class="row g-3">
+            <div class="col-md-8">
+              <input type="text" class="form-control form-control-lg" id="inputConsulta" placeholder="Ingrese CBU/CVU, Alias, Teléfono o URL dudosa...">
             </div>
-            <div class="card-body">
-                <form id="denunciaForm" action="/denuncia" method="POST" enctype="multipart/form-data">
-                    
-                    <!-- Datos del Denunciante -->
-                    <h5 class="card-title text-primary mb-3">1. Datos del Denunciante</h5>
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Nombre Completo</label>
-                            <input type="text" name="nombre" class="form-control" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">DNI / Documento</label>
-                            <input type="text" name="dni" class="form-control" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Teléfono de Contacto</label>
-                            <input type="tel" name="telefono" class="form-control" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Correo Electrónico</label>
-                            <input type="email" name="email" class="form-control" required>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <!-- Detalle del Hecho -->
-                    <h5 class="card-title text-primary mb-3">2. Detalle del Ciberdelito</h5>
-                    <div class="row g-3 mb-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Tipo de Ciberdelito</label>
-                            <select name="tipo_delito" class="form-select" required>
-                                <option value="" selected disabled>Seleccione una opción...</option>
-                                <option value="estafa">Estafa Virtual / Phishing</option>
-                                <option value="acceso_no_autorizado">Acceso No Autorizado / Hackeo</option>
-                                <option value="extorsion">Grooming / Extorsión Digital</option>
-                                <option value="usurpacion">Usurpación de Identidad</option>
-                                <option value="otro">Otro</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Fecha / Hora Aproximada del Hecho</label>
-                            <input type="datetime-local" name="fecha_hecho" class="form-control" required>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label">Relato Completo de los Hechos</label>
-                            <textarea name="descripcion" class="form-control" rows="4" placeholder="Describa cómo sucedió, cuentas involucradas, enlaces recibidos, etc." required></textarea>
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <!-- Documentación y Evidencias -->
-                    <h5 class="card-title text-primary mb-3">3. Adjuntar Documentación y Evidencia</h5>
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-6">
-                            <label class="form-label">Copia de DNI (Frente/Dorso)</label>
-                            <input type="file" name="file_dni" class="form-control" accept="image/*,.pdf" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Evidencia Digital (Capturas, comprobantes, chats)</label>
-                            <input type="file" name="file_evidencia" class="form-control" accept="image/*,.pdf,.zip" multiple>
-                        </div>
-                    </div>
-
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary btn-lg">Enviar Denuncia</button>
-                    </div>
-                </form>
+            <div class="col-md-4">
+              <button class="btn btn-primary btn-lg w-100" onclick="consultarDato()"><i class="bi bi-search me-1"></i> Verificar Alerta</button>
             </div>
+          </div>
+          <div id="resultadoConsulta" class="mt-4" style="display:none;"></div>
         </div>
+
+        <div class="card p-4">
+          <h5 class="text-secondary mb-3"><i class="bi bi-geo-alt-fill me-2"></i>Mapa de Georreferenciación de Incidencias</h5>
+          <div id="mapa"></div>
+        </div>
+      </div>
+
+      <!-- VENTANA 2: DENUNCIA DIGITAL (CIUDADANÍA) -->
+      <div class="tab-pane fade" id="content-denuncia" style="display:none;">
+        <div class="card p-4">
+          <div class="border-bottom pb-3 mb-4">
+            <h3 class="card-title text-danger fw-bold">
+              <i class="bi bi-file-earmark-text-fill me-2"></i>Formulario de Denuncia Digital por Ciberdelito
+            </h3>
+            <p class="text-dark fw-medium mb-0">
+              Complete este formulario si fue víctima de un engaño por internet, redes sociales, llamadas o transferencias bancarias.
+            </p>
+          </div>
+          
+          <form id="formDenuncia" enctype="multipart/form-data">
+            
+            <!-- PASO 1: DATOS PERSONALES -->
+            <div class="alert alert-primary shadow-sm border-start border-5 border-primary mb-4" role="alert">
+              <h5 class="fw-bold text-primary mb-1"><i class="bi bi-person-vcard-fill me-2"></i>1. Datos de la Persona que Denuncia</h5>
+              <div class="text-dark">Necesitamos estos datos para contactarlo/a si la Policía o Fiscalía necesitan validar la información.</div>
+            </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Nombre y Apellido Completo *</label>
+                <input type="text" class="form-control" id="denNombre" placeholder="Ej: Juan Pérez" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Número de DNI *</label>
+                <input type="text" class="form-control" id="denDni" placeholder="Sin puntos (Ej: 35123456)" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Teléfono de Contacto (Celular) *</label>
+                <input type="tel" class="form-control" id="denTelContacto" placeholder="Ej: 3434123456" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Ciudad / Localidad donde reside *</label>
+                <input type="text" class="form-control" id="denLocalidad" placeholder="Ej: Paraná, Concordia, Victoria" required>
+              </div>
+            </div>
+
+            <!-- VALIDACIÓN DE IDENTIDAD CON DNI -->
+            <div class="alert alert-info shadow-sm border-start border-5 border-info mb-4" role="alert">
+              <h5 class="fw-bold text-info mb-1"><i class="bi bi-person-bounding-box me-2"></i>Validación de Identidad Digital</h5>
+              <div class="text-dark">Para otorgar validez legal a su presentación, adjunte las imágenes de su documento de identidad.</div>
+            </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Foto Frente y Dorso del DNI *</label>
+                <input type="file" class="form-control" id="denDniAdjunto" accept="image/*" multiple required>
+                <div class="form-text text-muted">Adjunte fotos claras del DNI (frente y dorso).</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Selfie de Validación (Rostro + DNI) *</label>
+                <input type="file" class="form-control" id="denSelfieDni" accept="image/*" required>
+                <div class="form-text text-muted">Fotografía sosteniendo su DNI cerca del rostro.</div>
+              </div>
+            </div>
+
+            <!-- PASO 2: DETALLE DEL DELITO (RESALTADO EN ROJO) -->
+            <div class="alert alert-danger shadow-sm border-start border-5 border-danger mb-4" role="alert">
+              <h5 class="fw-bold text-danger mb-1"><i class="bi bi-exclamation-octagon-fill me-2"></i>2. ¿Qué tipo de engaño o delito sufrió?</h5>
+              <div class="text-dark">Seleccione la opción que describe lo ocurrido y detalle los hechos.</div>
+            </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-md-6">
+                <label class="form-label fw-bold">¿Cómo fue el engaño? *</label>
+                <select class="form-select form-select-lg border-danger" id="denModalidad" required>
+                  <option value="" disabled selected>-- Seleccione una opción --</option>
+                  <option value="Estafa WhatsApp / Suplantación">Me hackearon el WhatsApp / Escribieron pidiendo dinero a mi nombre</option>
+                  <option value="Phishing Bancario">Ingresé a una página falsa del banco o me robaron claves de la app</option>
+                  <option value="Fraude Compras Online">Compré o vendí un producto por internet y fui estafado/a (Facebook, Instagram, MercadoPago)</option>
+                  <option value="Acceso No Autorizado">Ingresaron a alguna cuenta mía sin permiso</option>
+                  <option value="Sextorsión / Grooming">Amenazas con publicar fotos personales / Extorsión / Acoso a menores</option>
+                  <option value="Otro">Otro tipo de engaño o estafa digital</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Monto aproximado perdido ($ ARS)</label>
+                <input type="number" step="0.01" class="form-control form-control-lg" id="denMonto" placeholder="Ej: 50000 (Si no perdió dinero, deje 0)">
+              </div>
+              <div class="col-12">
+                <label class="form-label fw-bold">Relato breve de lo sucedido *</label>
+                <textarea class="form-control" id="denComentario" rows="3" placeholder="Cuéntenos brevemente qué ocurrió..." required></textarea>
+              </div>
+            </div>
+
+            <!-- PASO 3: DATOS DEL SOSPECHOSO -->
+            <div class="alert alert-warning shadow-sm border-start border-5 border-warning mb-4" role="alert">
+              <h5 class="fw-bold text-dark mb-1"><i class="bi bi-search me-2"></i>3. Datos del Estafador o Cuenta Sospechosa</h5>
+              <div class="text-dark">Complete los datos que tenga a mano (opcional).</div>
+            </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-md-4">
+                <label class="form-label fw-bold">CBU / CVU donde envió la plata</label>
+                <input type="text" class="form-control" id="denCbu" placeholder="22 números de la cuenta">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-bold">Alias de la cuenta</label>
+                <input type="text" class="form-control" id="denAlias" placeholder="Ej: pedro.mp">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label fw-bold">Teléfono del estafador</label>
+                <input type="text" class="form-control" id="denTel" placeholder="Ej: 11 2345 6789">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Página Web o Enlace Falso</label>
+                <input type="text" class="form-control" id="denUrl" placeholder="Ej: http://banco-falso.com">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-bold">Red Social utilizada</label>
+                <input type="text" class="form-control" id="denRedSocial" placeholder="Ej: WhatsApp, Instagram, Facebook">
+              </div>
+            </div>
+
+            <!-- PASO 4: PRUEBAS Y COMPROBANTES -->
+            <div class="alert alert-success shadow-sm border-start border-5 border-success mb-4" role="alert">
+              <h5 class="fw-bold text-success mb-1"><i class="bi bi-paperclip me-2"></i>4. Comprobantes y Fotos de Prueba</h5>
+              <div class="text-dark">Adjunte capturas de chats, comprobantes de transferencias u otras evidencias.</div>
+            </div>
+
+            <div class="row g-3 mb-4">
+              <div class="col-md-12">
+                <label class="form-label fw-bold">Adjuntar Capturas / Comprobantes *</label>
+                <input type="file" class="form-control form-control-lg" id="denArchivo" multiple required>
+                <div class="form-text text-muted">
+                  <i class="bi bi-info-circle me-1"></i> Puede seleccionar varias fotos manteniendo presionada la tecla Ctrl en PC o seleccionando varias desde la galería del celular.
+                </div>
+              </div>
+            </div>
+
+            <!-- CAMPOS OCULTOS -->
+            <input type="hidden" id="denComisaria" value="Denuncia Digital Ciudadana">
+            <input type="hidden" id="denProvincia" value="Entre Ríos">
+            <input type="hidden" id="denLat" value="-31.7317">
+            <input type="hidden" id="denLng" value="-60.5175">
+
+            <!-- BOTÓN ENVIAR -->
+            <div class="d-grid gap-2 d-md-flex justify-md-end mt-4">
+              <button type="submit" class="btn btn-danger btn-lg px-5 py-3 fw-bold shadow">
+                <i class="bi bi-send-fill me-2"></i>Enviar Denuncia Digital
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+
+      <!-- VENTANA 3: RECEPCIÓN POLICIAL Y TRIAGE -->
+      <div class="tab-pane fade" id="content-policial" style="display:none;">
+        <div class="card p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="card-title text-primary"><i class="bi bi-building-fill-lock me-2"></i>Módulo Policial: Triage y Prevención</h4>
+            <button class="btn btn-outline-primary" onclick="cargarDenunciasPoliciales()"><i class="bi bi-arrow-clockwise me-1"></i> Actualizar Lista</button>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-dark">
+                <tr>
+                  <th>ID</th>
+                  <th>Fecha</th>
+                  <th>Comisaría</th>
+                  <th>Modalidad</th>
+                  <th>Identificador</th>
+                  <th>Monto</th>
+                  <th>Estado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="tablaPolicial"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- VENTANA 4: MÓDULO JUDICIAL -->
+      <div class="tab-pane fade" id="content-judicial" style="display:none;">
+        <div class="card p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="card-title text-primary"><i class="bi bi-balance-scale me-2"></i>Módulo Judicial: Radicación de Causas</h4>
+            <button class="btn btn-outline-primary" onclick="cargarCausasJudiciales()"><i class="bi bi-arrow-clockwise me-1"></i> Actualizar Módulo</button>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-striped align-middle">
+              <thead style="background-color: #0f172a; color: white;">
+                <tr>
+                  <th>ID Causa</th>
+                  <th>Comisaría</th>
+                  <th>Delito</th>
+                  <th>CBU/Alias Imputado</th>
+                  <th>Monto</th>
+                  <th>Estado Judicial</th>
+                </tr>
+              </thead>
+              <tbody id="tablaJudicial"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
     </div>
+  </div>
+
+  <script>
+    function cambiarPestana(tabId, btnId) {
+      const tabs = ['content-consultas', 'content-denuncia', 'content-policial', 'content-judicial'];
+      const btns = ['btn-v1', 'btn-v2', 'btn-v3', 'btn-v4'];
+
+      tabs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.style.display = 'none';
+          el.classList.remove('show', 'active');
+        }
+      });
+
+      btns.forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.classList.remove('active');
+      });
+
+      const targetTab = document.getElementById(tabId);
+      const targetBtn = document.getElementById(btnId);
+
+      if (targetTab) {
+        targetTab.style.display = 'block';
+        targetTab.classList.add('show', 'active');
+      }
+      if (targetBtn) {
+        targetBtn.classList.add('active');
+      }
+    }
+  </script>
+
+  <!-- JS Leaflet y Scripts de la App -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/bootstrap.bundle.min.js"></script>
+  <script src="/static/app.js"></script>
+
 </body>
 </html>
