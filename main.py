@@ -49,9 +49,9 @@ def init_db():
 init_db()
 
 # Ruta Principal: Carga el Frontend
-@app.get("/", response_class=HTMLResponse)
-async def read_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+@app.get("/")
+def read_root(request: Request):
+    return templates.TemplateResponse(request=request, name="index.html")
 
 # Ruta para Recibir la Denuncia Digital
 @app.post("/denuncia")
