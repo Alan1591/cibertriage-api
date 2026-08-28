@@ -28,27 +28,25 @@ function cambiarPestana(tabId, btnId) {
     }
 }
 
-// Inicialización segura cuando el DOM está listo
+// Inicialización del DOM y Mapa CartoDB (evita error 403)
 document.addEventListener('DOMContentLoaded', () => {
-    // Inicializar mapa solo si existe el contenedor y Leaflet está cargado
     if (typeof L !== 'undefined' && document.getElementById('mapa')) {
         try {
-       const map = L.map('mapa').setView([-31.7317, -60.5175], 12);
+            const map = L.map('mapa').setView([-31.7317, -60.5175], 12);
             L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
                 attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
                 subdomains: 'abcd',
                 maxZoom: 19
             }).addTo(map);
-            
+
             L.marker([-31.7317, -60.5175])
                 .addTo(map)
-                .bindPopup('<b>Centro de Control</b><br>Paraná, Entre Ríos');
+                .bindPopup('<b>Centro de Control / Jurisdicción</b><br>Paraná, Entre Ríos');
         } catch (e) {
-            console.log('Mapa no cargado:', e);
+            console.log('Error al cargar el mapa:', e);
         }
     }
 
-    // Listener para el formulario de denuncia
     const form = document.getElementById('formDenuncia');
     if (form) {
         form.addEventListener('submit', (e) => {
@@ -59,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Funciones para botones de alerta y tablas
 function consultarDato() {
     const input = document.getElementById('inputConsulta');
     const resDiv = document.getElementById('resultadoConsulta');
