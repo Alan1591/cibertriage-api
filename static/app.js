@@ -33,9 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inicializar mapa solo si existe el contenedor y Leaflet está cargado
     if (typeof L !== 'undefined' && document.getElementById('mapa')) {
         try {
-            const map = L.map('mapa').setView([-31.7317, -60.5175], 12);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: 'OpenStreetMap'
+       const map = L.map('mapa').setView([-31.7317, -60.5175], 12);
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+                subdomains: 'abcd',
+                maxZoom: 19
             }).addTo(map);
             
             L.marker([-31.7317, -60.5175])
