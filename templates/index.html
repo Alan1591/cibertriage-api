@@ -2,9 +2,91 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Cibertriage API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Unificado de Gestión de Ciberdelitos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f8f9fa; }
+        .card-header { background-color: #0d6efd; color: white; }
+    </style>
 </head>
 <body>
-    <h1>Cibertriage API - Servicio Activo</h1>
+    <div class="container py-4">
+        <div class="card shadow-sm">
+            <div class="card-header text-center fw-bold fs-5">
+                Recepción de Denuncias y Triage
+            </div>
+            <div class="card-body">
+                <form id="denunciaForm" action="/denuncia" method="POST" enctype="multipart/form-data">
+                    
+                    <!-- Datos del Denunciante -->
+                    <h5 class="card-title text-primary mb-3">1. Datos del Denunciante</h5>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nombre Completo</label>
+                            <input type="text" name="nombre" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">DNI / Documento</label>
+                            <input type="text" name="dni" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Teléfono de Contacto</label>
+                            <input type="tel" name="telefono" class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Correo Electrónico</label>
+                            <input type="email" name="email" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Detalle del Hecho -->
+                    <h5 class="card-title text-primary mb-3">2. Detalle del Ciberdelito</h5>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Tipo de Ciberdelito</label>
+                            <select name="tipo_delito" class="form-select" required>
+                                <option value="" selected disabled>Seleccione una opción...</option>
+                                <option value="estafa">Estafa Virtual / Phishing</option>
+                                <option value="acceso_no_autorizado">Acceso No Autorizado / Hackeo</option>
+                                <option value="extorsion">Grooming / Extorsión Digital</option>
+                                <option value="usurpacion">Usurpación de Identidad</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Fecha / Hora Aproximada del Hecho</label>
+                            <input type="datetime-local" name="fecha_hecho" class="form-control" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Relato Completo de los Hechos</label>
+                            <textarea name="descripcion" class="form-control" rows="4" placeholder="Describa cómo sucedió, cuentas involucradas, enlaces recibidos, etc." required></textarea>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- Documentación y Evidencias -->
+                    <h5 class="card-title text-primary mb-3">3. Adjuntar Documentación y Evidencia</h5>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Copia de DNI (Frente/Dorso)</label>
+                            <input type="file" name="file_dni" class="form-control" accept="image/*,.pdf" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Evidencia Digital (Capturas, comprobantes, chats)</label>
+                            <input type="file" name="file_evidencia" class="form-control" accept="image/*,.pdf,.zip" multiple>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">Enviar Denuncia</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
