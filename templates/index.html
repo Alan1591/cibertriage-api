@@ -502,11 +502,11 @@
 <!-- Bootstrap 5 JS & Script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // -------------------------------------------------------------------
-        // 1. Consulta de IoC (Pestaña 1)
-        // -------------------------------------------------------------------
+        // ===================================================
+        // 1. CONSULTAR IOC (Pestaña 1)
+        // ===================================================
         async function consultarIoC(e) {
-            e.preventDefault();
+            if (e) e.preventDefault();
             const tipo = document.getElementById('search-tipo').value;
             const valor = document.getElementById('search-valor').value;
             const divResultado = document.getElementById('resultado-consulta');
@@ -539,18 +539,18 @@
             }
         }
 
-        // -------------------------------------------------------------------
-        // 2. Cargar Pre-Denuncias en la Tabla del Panel Policial
-        // -------------------------------------------------------------------
+        // ===================================================
+        // 2. OBTENER Y DIBUJAR DENUNCIAS EN LA TABLA
+        // ===================================================
         async function cargarReportes() {
             try {
                 const response = await fetch('/api/reportes');
-                const data = await response.json();
+                if (!response.ok) return;
                 
-                const tbody = document.querySelector('table tbody'); 
+                const data = await response.json();
+                const tbody = document.querySelector('#panel-triage-container table tbody') || document.querySelector('table tbody'); 
                 if (!tbody || !data.reportes) return;
 
-                // Si hay reportes cargados en FastAPI, se limpia la fila por defecto
                 if (data.reportes.length > 0) {
                     tbody.innerHTML = ''; 
                 }
@@ -576,172 +576,98 @@
             }
         }
 
-        // -------------------------------------------------------------------
-     // -------------------------------------------------------------------
-        // 3. Inicio de Sesión Policial e integración con cargarReportes()
-        // -------------------------------------------------------------------
-        async function loginPolicial(e) {
-            if (e) e.preventDefault();
+        // ===================================================
+        // 3. INICIO DE SESIÓN Y CONTROL DE SESIÓN POLICIAL
+        // ===================================================
+        const formLogin = document.getElementById('form-login-policial');
+        if (formLogin) {
+            formLogin.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const usuario = document.getElementById('usuario-policial')?.value || document.getElementById('login-usuario')?.value;
+                const password = document.getElementById('password-policial')?.value || document.getElementById('login-password')?.value;
+                const errorDiv = document.getElementById('login-error');
+
+                try {
+                    const response = await fetch('/api/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ usuario, password })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.token) localStorage.setItem('jwt_token', data.token);
+                        
+                        if (errorDiv) errorDiv.classList.add('d-none');
+                        
+                        const loginContainer = document.getElementById('login-policial-container');
+                        const triageContainer = document.getElementById('panel-triage-container');
+                        
+                        if (loginContainer) loginContainer.classList.add('d-none');
+                        if (triageContainer) triageContainer.classList.remove('d-none');
+
+                        // Carga dinámicamente las pre-denuncias guardadas
+                        await cargarReportes();
+                        
+                    } else {
+                        if (errorDiv) errorDiv.classList.remove('d-none');
+                        else alert("Credenciales de acceso no válidas");
+                    }
+                } catch (err) {
+                    console.error("Error en autenticación:", err);
+                    if (errorDiv) errorDiv.classList.remove('d-none');
+                }
+            });
+        }
+
+        function cerrarSesionPolicial() {
+            localStorage.removeItem('jwt_token');
+            const form = document.getElementById('form-login-policial');
+            if (form) form.reset();
             
-            const usuarioInput = document.getElementById('login-usuario').value;
-            const passwordInput = document.getElementById('login-password').value;
-
-            try {
-                const response = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ usuario: usuarioInput, password: passwordInput })
-                });
-
-                const data = await response.json();
-
-                if (response.ok && data.status === "success") {
-                    // Oculta el contenedor de login o cierra el modal
-                    const modalEl = document.getElementById('modalLogin');
-                    if (modalEl) {
-                        const modalInstance = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-                        modalInstance.hide();
-                    }
-
-                    // Si utilizas conmutación de pestañas/secciones
-                    const panelSection = document.getElementById('panel-auditoria');
-                    if (panelSection) {
-                        panelSection.style.display = 'block';
-                    }
-
-                    // Carga dinámicamente las pre-denuncias desde la API
-                    await cargarReportes();
-
-                } else {
-                    alert(data.detail || "Credenciales de acceso no válidas");
-                }
-            } catch (err) {
-                console.error("Error en la autenticación policial:", err);
-            }
+            const loginContainer = document.getElementById('login-policial-container');
+            const triageContainer = document.getElementById('panel-triage-container');
+            
+            if (loginContainer) loginContainer.classList.remove('d-none');
+            if (triageContainer) triageContainer.classList.add('d-none');
         }
 
-                    // AQUÍ SE LLAMA A LA FUNCIÓN PARA ACTUALIZAR LA TABLA LUEGO DEL LOGIN EXITOSO
-                    await cargarReportes();
+        // ===================================================
+        // 4. ENVÍO DE FORMULARIO DE PRE-DENUNCIA
+        // ===================================================
+        const formDenuncia = document.getElementById('form-denuncia');
+        if (formDenuncia) {
+            formDenuncia.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
 
-                } else {
-                    alert(data.detail || "Credenciales incorrectas");
+                try {
+                    const response = await fetch('/api/reporte-digital', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        alert("¡Pre-denuncia registrada con éxito!\nHash asignado: " + (data.hash || "Procesado en servidor"));
+                        this.reset();
+                    } else {
+                        alert("Error en el servidor al procesar la denuncia. Revisa la consola o main.py.");
+                    }
+                } catch (error) {
+                    console.error("Error al enviar el formulario:", error);
+                    alert("Ocurrió un error de red al intentar enviar la denuncia.");
                 }
-            } catch (err) {
-                console.error("Error en login:", err);
-            }
+            });
         }
 
-        // Cargar reportes automáticamente al iniciar si el panel ya está visible
+        // Ejecución al cargar el documento
         document.addEventListener('DOMContentLoaded', () => {
-            cargarReportes();
+            const triageContainer = document.getElementById('panel-triage-container');
+            if (triageContainer && !triageContainer.classList.contains('d-none')) {
+                cargarReportes();
+            }
         });
-<script>
-// ===================================================
-// 1. MANEJO DEL LOGIN POLICIAL Y CÁRGA DE TABLA
-// ===================================================
-document.getElementById('form-login-policial').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const usuario = document.getElementById('usuario-policial').value;
-    const password = document.getElementById('password-policial').value;
-    const errorDiv = document.getElementById('login-error');
-
-    try {
-        const response = await fetch('/api/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ usuario, password })
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('jwt_token', data.token);
-            
-            if (errorDiv) errorDiv.classList.add('d-none');
-            
-            document.getElementById('login-policial-container').classList.add('d-none');
-            document.getElementById('panel-triage-container').classList.remove('d-none');
-
-            // Carga dinámicamente las denuncias en la tabla al entrar
-            await cargarReportes();
-            
-        } else {
-            if (errorDiv) errorDiv.classList.remove('d-none');
-        }
-    } catch (err) {
-        if (errorDiv) errorDiv.classList.remove('d-none');
-    }
-});
-
-function cerrarSesionPolicial() {
-    localStorage.removeItem('jwt_token');
-    const form = document.getElementById('form-login-policial');
-    if (form) form.reset();
-    document.getElementById('login-policial-container').classList.remove('d-none');
-    document.getElementById('panel-triage-container').classList.add('d-none');
-}
-
-// ===================================================
-// 2. LISTENER DE ENVÍO DE PRE-DENUNCIA
-// ===================================================
-document.getElementById('form-denuncia').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-
-    try {
-        const response = await fetch('/api/reporte-digital', {
-            method: 'POST',
-            body: formData
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            alert("¡Pre-denuncia registrada con éxito!\nHash asignado: " + (data.hash || "Procesado en servidor"));
-            this.reset();
-        } else {
-            alert("Error en el servidor al procesar la denuncia. Revisa la consola o main.py.");
-        }
-    } catch (error) {
-        console.error("Error al enviar el formulario:", error);
-        alert("Ocurrió un error de red al intentar enviar la denuncia.");
-    }
-});
-
-// ===================================================
-// 3. CONSULTAR Y DIBUJAR REPORTES EN LA TABLA
-// ===================================================
-async function cargarReportes() {
-    try {
-        const response = await fetch('/api/reportes');
-        if (!response.ok) return;
-        
-        const data = await response.json();
-        const tbody = document.querySelector('#panel-triage-container table tbody'); 
-        if (!tbody || !data.reportes) return;
-
-        if (data.reportes.length > 0) {
-            tbody.innerHTML = ''; 
-        }
-
-        data.reportes.forEach(rep => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td class="fw-bold text-danger">${rep.ticket}</td>
-                <td>${rep.fecha}</td>
-                <td>${rep.tipologia}</td>
-                <td><span class="badge bg-warning text-dark">${rep.ioc}</span></td>
-                <td class="small text-break font-monospace">${rep.hash}</td>
-                <td>
-                    <button class="btn btn-sm btn-info text-white me-1"><i class="fa-solid fa-eye"></i> Ver Detalle</button>
-                    <button class="btn btn-sm btn-success me-1"><i class="fa-solid fa-check"></i> Aprobar</button>
-                    <button class="btn btn-sm btn-danger"><i class="fa-solid fa-xmark"></i> Desestimar</button>
-                </td>
-            `;
-            tbody.appendChild(row);
-        });
-    } catch (error) {
-        console.error("Error al cargar reportes:", error);
-    }
-}
-</script>
+    </script>
 </body>
 </html>
