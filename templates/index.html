@@ -3,439 +3,481 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CiberTriage - Portal de Denuncias y Triage</title>
-    <!-- Bootstrap 5.3 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- FontAwesome 6 Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <title>Plataforma  de Reportes Digitales</title>
+    <!-- Bootstrap 5 CSS & FontAwesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-dark: #0f172a;
+            --bg-light: #f1f5f9;
+        }
         body {
-            background-color: #e9ecef;
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            color: #333333;
+            background-color: var(--bg-light);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
         }
-
-        /* Nav Pestañas Superior */
-        .nav-pills-custom {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 6px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-        }
-
-        .nav-pills-custom .nav-link {
-            color: #0d233a;
-            font-weight: 600;
-            font-size: 0.95rem;
-            border-radius: 8px;
-            padding: 10px 20px;
-            border: 1px solid transparent;
-            transition: all 0.2s ease-in-out;
-        }
-
-        .nav-pills-custom .nav-link:hover {
-            background-color: #f8f9fa;
-        }
-
-        .nav-pills-custom .nav-link.active {
-            background-color: #0d233a;
+        .hero-header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: #ffffff;
-            border-color: #0d233a;
-            box-shadow: 0 2px 6px rgba(13, 35, 58, 0.2);
+            padding: 1.8rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
-
-        /* Tarjeta Contenedora Principal */
-        .card-main {
-            background-color: #ffffff;
+        .nav-pills .nav-link {
+            color: #334155;
+            font-weight: 700;
+            padding: 0.9rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .nav-pills .nav-link.active {
+            background-color: #2563eb !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4);
+        }
+        .card-custom {
             border: none;
             border-radius: 14px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-            padding: 2.5rem;
+            background: #ffffff;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
         }
 
-        /* Estilo de Formulario e Inputs */
-        .form-label {
-            color: #212529;
-            font-size: 0.95rem;
-            margin-bottom: 0.4rem;
+        /* -----------------------------------------------------------------
+           SECCIONES CON COLORES LLAMATIVOS Y BORDES DESTACADOS (Estilo Imagen)
+           ----------------------------------------------------------------- */
+
+        /* SECCIÓN 1: AZUL FRANCIA */
+        .section-header-azul-francia {
+            background-color: #e0f2fe;
+            border: 3px solid #0055ff; /* Azul Francia */
+            border-radius: 10px;
+            padding: 14px 20px;
+            margin-top: 1.5rem;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0, 85, 255, 0.15);
+        }
+        .section-header-azul-francia h5 {
+            color: #0033cc;
+            font-weight: 800;
+            font-size: 1.25rem;
+            margin: 0;
         }
 
-        .form-control, .form-select {
-            border: 1px solid #dee2e6;
+        /* SECCIÓN 2: PÚRPURA FUERTE */
+        .section-header-purpura {
+            background-color: #f3e8ff;
+            border: 3px solid #7e22ce; /* Púrpura Fuerte */
+            border-radius: 10px;
+            padding: 14px 20px;
+            margin-top: 1.5rem;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 2px 8px rgba(126, 34, 206, 0.15);
+        }
+        .section-header-purpura h5 {
+            color: #581c87;
+            font-weight: 800;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+
+        /* SECCIÓN 3: ROJO IMPACTANTE */
+        .section-header-rojo {
+            background-color: #ffe4e6;
+            border: 3px solid #dc2626; /* Rojo */
+            border-radius: 10px;
+            padding: 14px 20px;
+            margin-top: 1.5rem;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);
+        }
+        .section-header-rojo h5 {
+            color: #991b1b;
+            font-weight: 800;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+
+        /* SECCIÓN 4: VERDE */
+        .section-header-verde {
+            background-color: #dcfce7;
+            border: 3px solid #16a34a; /* Verde */
+            border-radius: 10px;
+            padding: 14px 20px;
+            margin-top: 1.5rem;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 2px 8px rgba(22, 163, 74, 0.15);
+        }
+        .section-header-verde h5 {
+            color: #14532d;
+            font-weight: 800;
+            font-size: 1.25rem;
+            margin: 0;
+        }
+
+        /* Botón Enviar */
+        .btn-custom-submit {
+            background-color: #dc2626;
+            color: white;
+            font-weight: 800;
+            padding: 0.9rem 2.8rem;
             border-radius: 8px;
-            padding: 0.65rem 0.9rem;
-            font-size: 0.95rem;
-            color: #495057;
-            background-color: #ffffff;
+            border: none;
+            font-size: 1.15rem;
+            box-shadow: 0 4px 14px rgba(220, 38, 38, 0.4);
+            transition: all 0.2s ease-in-out;
         }
-
-        .form-control:focus, .form-select:focus {
-            border-color: #0d233a;
-            box-shadow: 0 0 0 0.2rem rgba(13, 35, 58, 0.15);
-        }
-
-        .form-control::placeholder {
-            color: #adb5bd;
-        }
-
-        /* Modales y Tablas */
-        .badge-hash {
-            font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-            font-size: 0.85rem;
-            background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
-            color: #0d233a;
+        .btn-custom-submit:hover {
+            background-color: #b91c1c;
+            transform: translateY(-2px);
+            color: white;
         }
     </style>
 </head>
-<body class="py-4">
+<body>
 
-    <div class="container max-w-lg">
-        
-        <!-- PESTAÑAS DE NAVEGACIÓN SUPERIOR -->
-        <ul class="nav nav-pills nav-justified nav-pills-custom mb-4" id="pills-tab" role="tablist">
+    <!-- Header Principal -->
+    <header class="hero-header mb-4">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div>
+                <h2 class="fw-bold mb-0 text-white"><i class="fa-solid fa-shield-halved text-primary me-2"></i>Sistema Unificado de Gestión de Ciberdelitos</h2>
+                <span class="badge bg-primary text-wrap mt-1">PLATAFORMA DIGITAL DE RECEPCIÓN, AUDITORÍA TÉCNICO-POLICIAL Y PREVENCIÓN</span>
+            </div>
+            <div>
+                <a href="#" class="btn btn-outline-light btn-sm rounded-pill fw-bold"><i class="fa-solid fa-mobile-screen-button me-1"></i> Descargar App (APK)</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container pb-5">
+        <!-- Navegación por Ventanas -->
+        <ul class="nav nav-pills nav-fill mb-4 bg-white p-2 rounded-3 shadow-sm" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-consulta-tab" data-bs-toggle="pill" data-bs-target="#pills-consulta" type="button" role="tab">
-                    <i class="fa-solid fa-magnifying-glass me-2"></i>1. Consulta Rápida de IoC
+                <button class="nav-link" id="tab-consultas-tab" data-bs-toggle="pill" data-bs-target="#tab-consultas" type="button" role="tab">
+                    <i class="fa-solid fa-magnifying-glass me-2"></i>Ventana 1: Consultas y Alerta
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="pills-denuncia-tab" data-bs-toggle="pill" data-bs-target="#pills-denuncia" type="button" role="tab">
-                    <i class="fa-solid fa-file-signature me-2"></i>2. Registro de Pre-Denuncia Digital
+                <button class="nav-link active" id="tab-reporte-tab" data-bs-toggle="pill" data-bs-target="#tab-reporte" type="button" role="tab">
+                    <i class="fa-solid fa-file-pen me-2"></i>Ventana 2: Reporte Digital
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-policial-tab" data-bs-toggle="pill" data-bs-target="#pills-policial" type="button" role="tab">
-                    <i class="fa-solid fa-user-shield me-2"></i>3. Panel de Triage e Investigaciones
+                <button class="nav-link" id="tab-auditoria-tab" data-bs-toggle="pill" data-bs-target="#tab-auditoria" type="button" role="tab">
+                    <i class="fa-solid fa-user-shield me-2"></i>Ventana 3: Auditoría Policial
                 </button>
             </li>
         </ul>
 
-        <!-- CONTENIDO DE PESTAÑAS -->
+        <!-- Contenido -->
         <div class="tab-content" id="pills-tabContent">
-
-            <!-- 1. CONSULTA RÁPIDA DE IOC -->
-            <div class="tab-pane fade" id="pills-consulta" role="tabpanel">
-                <div class="card card-main">
-                    <div class="border-bottom pb-3 mb-4">
-                        <h4 class="fw-bold text-dark mb-1">
-                            <i class="fa-solid fa-magnifying-glass text-primary me-2"></i>Verificación de Indicadores de Compromiso (IoC)
-                        </h4>
-                        <p class="text-muted small mb-0">Consulte si un CBU, Alias, teléfono o enlace ya posee registros previos de fraude.</p>
-                    </div>
-
-                    <form id="form-consulta-ioc" onsubmit="consultarIoC(event)" class="row g-3">
-                        <div class="col-md-4">
-                            <label class="form-label fw-bold">Tipo de Indicador</label>
-                            <select id="search-tipo" class="form-select" required>
-                                <option value="cbu_alias">CBU / CVU / Alias</option>
-                                <option value="telefono">Número de Teléfono / WhatsApp</option>
-                                <option value="cuit">CUIT / CUIL / DNI</option>
-                                <option value="url">Enlace / URL Sospechosa</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">Valor a Consultar</label>
-                            <input type="text" id="search-valor" class="form-control" placeholder="Ej: alias.falso.mp / 1122334455" required>
-                        </div>
-                        <div class="col-md-2 d-flex align-items-end">
-                            <button type="submit" class="btn btn-primary w-100 fw-bold"><i class="fa-solid fa-bolt me-1"></i>Consultar</button>
+            
+            <!-- VENTANA 1: CONSULTA DE IOC -->
+            <div class="tab-pane fade" id="tab-consultas" role="tabpanel">
+                <div class="card card-custom p-4 mb-4">
+                    <h4 class="text-primary fw-bold"><i class="fa-solid fa-shield-cat me-2"></i>Consulta Rápida de Indicadores de Riesgo (IoC)</h4>
+                    <p class="text-muted">Verifique CBU, CVU, Alias, Teléfono o Enlace sospechoso en la base preventiva unificada.</p>
+                    <form id="form-consulta" onsubmit="consultarIoC(event)">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <select class="form-select form-select-lg" id="search-tipo" required>
+                                    <option value="CBU_CVU">CBU / CVU (22 dígitos)</option>
+                                    <option value="ALIAS">Alias MP / Bancario</option>
+                                    <option value="TELEFONO">Teléfono / WhatsApp</option>
+                                    <option value="URL">Enlace URL Falso</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control form-control-lg" id="search-valor" placeholder="Ingrese CBU/CVU, Alias, Teléfono o URL dudosa..." required>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold"><i class="fa-solid fa-magnifying-glass me-2"></i>Verificar Alerta</button>
+                            </div>
                         </div>
                     </form>
-
                     <div id="resultado-consulta" class="mt-4"></div>
                 </div>
             </div>
 
-            <!-- 2. REGISTRO DE PRE-DENUNCIA DIGITAL (TU DISEÑO EXACTO) -->
-            <div class="tab-pane fade show active" id="pills-denuncia" role="tabpanel">
-                <div class="card card-main">
-                    
-                    <!-- ENCABEZADO -->
-                    <div class="border-bottom pb-3 mb-4">
-                        <h4 class="fw-bold text-dark mb-1">
-                            <i class="fa-solid fa-file-signature text-primary me-2"></i>Formulario Oficial de Pre-Denuncia Digital
-                        </h4>
-                        <p class="text-muted small mb-0">
-                            Complete los campos requeridos para asentar el reporte. El sistema generará una huella digital (Hash SHA-256) sobre las evidencias adjuntas para garantizar su intangibilidad legal.
-                        </p>
-                    </div>
+            <!-- VENTANA 2: REPORTE DIGITAL -->
+            <div class="tab-pane fade show active" id="tab-reporte" role="tabpanel">
+                <div class="card card-custom p-4">
+                    <h4 class="text-dark fw-bold mb-1"><i class="fa-solid fa-file-circle-plus me-2 text-primary"></i>Registrar Nuevo Reporte Digital</h4>
+                    <p class="text-muted small mb-3">Complete las secciones a continuación para registrar la información requerida.</p>
 
-                    <!-- FORMULARIO -->
                     <form id="form-denuncia" enctype="multipart/form-data">
                         <div class="row g-3">
                             
+                            <!-- SECCIÓN 1: AZUL FRANCIA -->
+                            <div class="col-12">
+                                <div class="section-header-azul-francia">
+                                    <h5><i class="fa-solid fa-address-card me-2"></i>1. Datos de Identificación del Ciudadano</h5>
+                                    <small class="text-primary fw-semibold d-block">Ingrese la información personal y datos de contacto del denunciante.</small>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">CUIL / DNI *</label>
+                                <input type="text" name="cuil_dni" class="form-control" placeholder="Ej: 20351234567" required>
+                            </div>
+                            <div class="col-md-5">
+                                <label class="form-label fw-bold">Nombre y Apellido Completo *</label>
+                                <input type="text" name="nombre_apellido" class="form-control" placeholder="Nombre completo" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Teléfono de Contacto / Móvil *</label>
+                                <input type="text" name="telefono_contacto" class="form-control" placeholder="Ej: 3434123456" required>
+                            </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Nombre y Apellido Completo</label>
-                                <input type="text" name="nombre" class="form-control" placeholder="Ej: Juan Pérez" required>
+                                <label class="form-label fw-bold">Correo Electrónico de Contacto *</label>
+                                <input type="email" name="email" class="form-control" placeholder="correo@ejemplo.com" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Domicilio Real (Calle, Número, Localidad) *</label>
+                                <input type="text" name="domicilio" class="form-control" placeholder="Ej: San Martín 1234, Paraná" required>
+                            </div>
+
+                            <!-- SECCIÓN 2: PÚRPURA FUERTE -->
+                            <div class="col-12">
+                                <div class="section-header-purpura">
+                                    <h5><i class="fa-solid fa-triangle-exclamation me-2"></i>2. Detalle del Hecho y Tipología del Delito</h5>
+                                    <small class="text-purple fw-semibold d-block">Indique la modalidad utilizada y la narración del incidente.</small>
+                                </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Documento de Identidad (DNI / Pasaporte)</label>
-                                <input type="text" name="dni" class="form-control" placeholder="Ej: 35123456" required>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Correo Electrónico de Notificación</label>
-                                <input type="email" name="email" class="form-control" placeholder="ejemplo@correo.com" required>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Teléfono de Contacto Directo</label>
-                                <input type="tel" name="telefono_contacto" class="form-control" placeholder="Ej: 3434123456" required>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Categoría / Tipología del Incidente</label>
-                                <select name="tipologia" class="form-select" required>
-                                    <option value="" selected disabled>Seleccione una opción del catálogo...</option>
-                                    <option value="Estafa en Compra/Venta Online">Estafa en Compra/Venta (Marketplace, IG, FB)</option>
-                                    <option value="Phishing / Suplantación">Suplantación de Identidad / Phishing</option>
-                                    <option value="Acceso Indebido / WhatsApp">Acceso No Autorizado / Hackeo WhatsApp</option>
-                                    <option value="Extorsión Digital">Extorsión / Ransomware</option>
-                                    <option value="Otro">Otro Delito Informático</option>
+                                <label class="form-label fw-bold">Tipología Amplia del Ciberdelito *</label>
+                                <select name="tipologia_delito" class="form-select" required>
+                                    <option value="" disabled selected>-- Seleccione la modalidad --</option>
+                                    <option value="Phishing / Suplantación de Identidad">Phishing / Suplantación de Identidad (Bancos / Entidades / Redes)</option>
+                                    <option value="Estafa en Compraventa Online">Estafa en Compraventa Online (Marketplace / Instagram)</option>
+                                    <option value="Secuestro de Cuenta de WhatsApp">Secuestro / Hackeo de Cuenta de WhatsApp</option>
+                                    <option value="Acceso No Autorizado a Homebanking">Acceso No Autorizado a Homebanking / Billeteras Virtuales</option>
+                                    <option value="Toma de Crédito Fraudulento">Toma de Crédito Fraudulento Pre-aprobado</option>
+                                    <option value="Fraude con Tarjeta de Crédito / Débito">Fraude con Tarjeta / Clonación / DEBIN</option>
+                                    <option value="Extorsión Digital / Ransomware">Extorsión Digital / Sexshaming / Ransomware</option>
+                                    <option value="Falsa Promesa de Inversiones / Cripto">Falsa Promesa de Empleo / Inversiones / Criptomonedas</option>
+                                    <option value="Venta de Productos Inexistentes">Venta de Productos Inexistentes / Pasajes Falsos</option>
+                                    <option value="Otras Modalidades Informáticas">Otras Modalidades Informáticas</option>
                                 </select>
                             </div>
-
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Dato Clave Utilizado en el Delito (IoC)</label>
-                                <input type="text" name="ioc" class="form-control" placeholder="CBU/Alias destino, número telefónico sospechoso o URL" required>
+                                <label class="form-label fw-bold">Monto Estimado del Perjuicio ($ ARS)</label>
+                                <input type="number" step="0.01" name="monto_estimado_ars" class="form-control" placeholder="0.00">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label fw-bold">Descripción Detallada del Incidente *</label>
+                                <textarea name="descripcion_hecho" class="form-control" rows="4" placeholder="Relate de forma cronológica cómo ocurrió el contacto, qué instrucciones le dieron y qué acciones realizó..." required></textarea>
                             </div>
 
-                            <div class="col-md-12">
-                                <label class="form-label fw-semibold">Relato Pormenorizado de los Hechos</label>
-                                <textarea name="relato" class="form-control" rows="4" placeholder="Describa cronológicamente lo sucedido: fechas, medios por los que fue contactado, montos involucrados y cualquier detalle relevante..." required></textarea>
+                            <!-- SECCIÓN 3: ROJO IMPACTANTE -->
+                            <div class="col-12">
+                                <div class="section-header-rojo">
+                                    <h5><i class="fa-solid fa-user-ninja me-2"></i>3. Datos del Estafador o Cuenta Sospechosa (IoCs)</h5>
+                                    <small class="text-danger fw-semibold d-block">Complete los datos que tenga a mano (opcional).</small>
+                                </div>
                             </div>
 
-                            <div class="col-md-12">
-                                <label class="form-label fw-semibold">Adjuntar Evidencia Digital (Comprobantes, Capturas, Archivos)</label>
-                                <input type="file" name="archivos" class="form-control" multiple>
-                                <div class="form-text">Puede adjuntar múltiples archivos (PDF, JPG, PNG). Serán procesados para resguardo de cadena de custodia.</div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">CBU / CVU donde envió la plata</label>
+                                <input type="text" name="cbu_cvu_sospechoso" class="form-control" placeholder="22 números de la cuenta">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Alias de la cuenta</label>
+                                <input type="text" name="alias_sospechoso" class="form-control" placeholder="Ej: pedro.mp">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Teléfono del estafador</label>
+                                <input type="text" name="telefono_sospechoso" class="form-control" placeholder="Ej: 11 2345 6789">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Página Web o Enlace Falso</label>
+                                <input type="text" name="url_sitio_falso" class="form-control" placeholder="Ej: http://banco-falso.com">
                             </div>
 
+<!-- SECCIÓN 4: VERDE -->
+                            <div class="col-12">
+                                <div class="section-header-verde">
+                                    <h5><i class="fa-solid fa-paperclip me-2"></i>4. Comprobantes y Fotos de Prueba (Evidencia Digital)</h5>
+                                    <small class="text-success fw-semibold d-block">Adjunte capturas de chats, comprobantes de transferencias u otras evidencias.</small>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <label for="archivo" class="form-label fw-bold">Adjuntar Evidencia Digital / Comprobante (Opcional):</label>
+                                <input class="form-control" type="file" id="archivo" name="archivo" accept="image/*,.pdf" multiple>
+                                <div class="form-text text-muted">
+                                    En caso de tentativa o si no cuenta con capturas/comprobantes, puede dejar este campo vacío. Puede seleccionar más de un archivo a la vez.
+                                </div>
+                                
+                                <!-- EXPLICACIÓN TÉCNICO-JURÍDICA SOBRE LA EVIDENCIA DIGITAL -->
+                                <div class="alert alert-light border border-secondary mt-3 p-3 text-secondary small rounded-3">
+                                    <p class="mb-2 fw-bold text-dark"><i class="fa-solid fa-shield-halved text-primary me-1"></i> Tratamiento Técnico-Policial de la Evidencia Digital:</p>
+                                    <ul class="mb-0 ps-3">
+                                        <li><strong>Integridad (Hash SHA-256):</strong> A cada archivo recibido se le calcula una huella criptográfica SHA-256 única para verificar su integridad y asegurar que no sufra modificaciones tras su recepción.</li>
+                                        <li><strong>Cadena de Custodia Integral:</strong> El cálculo del hash no constituye por sí solo la cadena de custodia. Para garantizar el valor probatorio, el sistema aplica un ciclo de gestión procedural e informático que contempla:
+                                            <ul>
+                                                <li><strong>Autenticación:</strong> Verificación de la identidad del remitente u operador mediante validación de usuario y metadatos.</li>
+                                                <li><strong>Autorización:</strong> Control estricto de accesos basado en roles para personal policial auditado.</li>
+                                                <li><strong>Cifrado:</strong> Cifrado de archivos en tránsito (HTTPS / TLS) y en reposo para evitar accesos indebidos.</li>
+                                                <li><strong>Auditoría:</strong> Registro inalterable y trazable (logs) de cada consulta, acceso o descarga realizada sobre la evidencia.</li>
+                                                <li><strong>Conservación y Transferencia:</strong> Almacenamiento seguro e inalterable hasta su remisión formal a la fiscalía u organismo judicial interviniente.</li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- BOTÓN DE ENVIAR ROJO LLAMATIVO -->
                             <div class="col-12 mt-4 text-end">
-                                <button type="submit" class="btn btn-primary btn-lg px-4 fw-bold" style="background-color: #0d233a; border-color: #0d233a;">
+                                <button type="submit" class="btn btn-custom-submit">
                                     <i class="fa-solid fa-paper-plane me-2"></i>Enviar Denuncia Digital
                                 </button>
                             </div>
-
                         </div>
                     </form>
-
                 </div>
             </div>
 
-            <!-- 3. PANEL DE TRIAGE POLICIAL -->
-            <div class="tab-pane fade" id="pills-policial" role="tabpanel">
-                
-                <!-- LOGIN POLICIAL -->
-                <div id="login-policial-container" class="card card-main mx-auto" style="max-width: 420px;">
-                    <div class="text-center mb-4">
-                        <i class="fa-solid fa-user-shield text-primary fa-3x mb-2" style="color: #0d233a !important;"></i>
-                        <h4 class="fw-bold">Acceso a Triage</h4>
-                        <p class="text-muted small">Módulo de gestión e investigación policial</p>
-                    </div>
-                    <form id="form-login-policial">
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">Usuario / Legajo</label>
-                            <input type="text" id="usuario-policial" class="form-control" placeholder="admin" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">Contraseña</label>
-                            <input type="password" id="password-policial" class="form-control" placeholder="••••••••" required>
-                        </div>
-                        <div id="login-error" class="alert alert-danger d-none py-2 small" role="alert">
-                            Credenciales incorrectas o servidor no disponible.
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100 fw-bold py-2" style="background-color: #0d233a; border-color: #0d233a;">
-                            <i class="fa-solid fa-right-to-bracket me-2"></i>Ingresar al Sistema
-                        </button>
-                    </form>
-                </div>
+<!-- VENTANA 3: AUDITORÍA POLICIAL (CON AUTENTICACIÓN, AUDITORIA Y VER DETALLE) -->
+<div class="tab-pane fade" id="tab-auditoria" role="tabpanel">
+    <div class="card card-custom p-4">
+        <h4 class="text-primary fw-bold mb-3">
+            <i class="fa-solid fa-user-shield me-2"></i>Panel de Auditoría y Triage Policial
+        </h4>
+        <p class="text-muted">Espacio restringido para personal policial auditado. Acceso mediante credenciales con control de roles (RBAC).</p>
 
-                <!-- DASHBOARD POLICIAL (OCULTO HASTA LOGIN) -->
-                <div id="panel-triage-container" class="d-none">
-                    <div class="card card-main">
-                        <div class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-4">
-                            <div>
-                                <h4 class="fw-bold text-dark mb-0"><i class="fa-solid fa-list-check me-2"></i>Bandeja de Pre-Denuncias Ingresadas</h4>
-                                <span class="text-muted small">Clasificación automática por matriz de riesgo e IoCs</span>
-                            </div>
-                            <button onclick="cerrarSesionPolicial()" class="btn btn-outline-danger btn-sm fw-semibold">
-                                <i class="fa-solid fa-arrow-right-from-bracket me-1"></i>Cerrar Sesión
+        <!-- FORMULARIO DE ACCESO / LOGIN -->
+        <div id="login-policial-container" class="card border border-primary mb-3 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title fw-bold text-primary mb-3">
+                    <i class="fa-solid fa-lock me-2"></i>Inicio de Sesión Operativo
+                </h5>
+                <form id="form-login-policial">
+                    <div class="row g-3">
+                        <div class="col-md-5">
+                            <label for="usuario-policial" class="form-label fw-bold">Legajo / Usuario Policial:</label>
+                            <input type="text" class="form-control" id="usuario-policial" placeholder="Ej: AlanYfran" required>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="password-policial" class="form-label fw-bold">Contraseña:</label>
+                            <input type="password" class="form-control" id="password-policial" placeholder="••••••••" required>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100 fw-bold">
+                                <i class="fa-solid fa-right-to-bracket me-1"></i>Ingresar
                             </button>
                         </div>
-
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle border">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Ticket ID</th>
-                                        <th>Fecha</th>
-                                        <th>Tipología</th>
-                                        <th>IoC Detectado</th>
-                                        <th>Hash Evidencia</th>
-                                        <th class="text-center">Acciones Triage</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tabla-reportes-pendientes">
-                                    <tr>
-                                        <td colspan="6" class="text-center py-4 text-muted">Aguardando actualización de denuncias...</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
+                </form>
+                <div id="login-error" class="alert alert-danger mt-3 d-none mb-0" role="alert">
+                    <i class="fa-solid fa-circle-exclamation me-2"></i>Credenciales policiales inválidas o no autorizadas.
                 </div>
+            </div>
+        </div>
 
+        <!-- PANEL DE AUDITORIA -->
+        <div id="panel-triage-container" class="d-none mt-3">
+            <div class="alert alert-success d-flex justify-content-between align-items-center shadow-sm" role="alert">
+                <span>
+                    <i class="fa-solid fa-user-check me-2"></i>Sesión activa: <strong>División Custodia y Protección — Alan Yfran</strong>
+                </span>
+                <button class="btn btn-sm btn-outline-danger fw-bold" onclick="cerrarSesionPolicial()">
+                    <i class="fa-solid fa-power-off me-1"></i>Cerrar Sesión
+                </button>
             </div>
 
+            <h5 class="fw-bold text-dark mt-4 mb-3">
+                <i class="fa-solid fa-list-check me-2 text-primary"></i>Pre-Denuncias Pendientes de Verificación
+            </h5>
+            
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered align-middle bg-white shadow-sm">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Ticket</th>
+                            <th>Fecha</th>
+                            <th>Tipología</th>
+                            <th>IoC Sospechoso</th>
+                            <th>Hash SHA-256 (ISO/IEC 27037)</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-reportes-pendientes">
+                        <tr>
+                            <td><code>#TK-2026-0891</code></td>
+                            <td>28/09/2026</td>
+                            <td>Estafa / Suplantación</td>
+                            <td><span class="badge bg-warning text-dark">Alias: cbu.falso.mp</span></td>
+                            <td><small class="text-muted">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</small></td>
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-info text-white fw-bold me-1" onclick="verDetalleDenuncia('#TK-2026-0891')">
+                                    <i class="fa-solid fa-eye me-1"></i>Ver Detalle
+                                </button>
+                                <button class="btn btn-sm btn-success fw-bold me-1">
+                                    <i class="fa-solid fa-check me-1"></i>Aprobar
+                                </button>
+                                <button class="btn btn-sm btn-danger fw-bold">
+                                    <i class="fa-solid fa-xmark me-1"></i>Desestimar
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
 
-    <!-- MODAL DETALLE DE DENUNCIA -->
+    </div>
+</div>
+
+<!-- 1. Modal para ver detalle -->
     <div class="modal fade" id="modalDetalleReporte" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content border-0 shadow">
-                <div class="modal-header text-white" style="background-color: #0d233a;">
-                    <h5 class="modal-title fw-bold"><i class="fa-solid fa-file-invoice me-2"></i>Detalle de Pre-Denuncia Digital</h5>
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title">Detalle del Reporte</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body p-4">
-                    <div class="row g-3">
-                        <div class="col-md-6 border-bottom pb-2">
-                            <p class="mb-0 text-muted small">Número de Ticket</p>
-                            <h6 id="det-ticket" class="fw-bold text-primary fs-5 mb-0">--</h6>
-                        </div>
-                        <div class="col-md-6 border-bottom pb-2">
-                            <p class="mb-0 text-muted small">Fecha de Registro</p>
-                            <h6 id="det-fecha" class="fw-bold text-dark mb-0">--</h6>
-                        </div>
-                        <div class="col-md-6 border-bottom pb-2">
-                            <p class="mb-0 text-muted small">Tipología Identificada</p>
-                            <h6 id="det-tipologia" class="fw-bold text-dark mb-0">--</h6>
-                        </div>
-                        <div class="col-md-6 border-bottom pb-2">
-                            <p class="mb-0 text-muted small">IoC Principal</p>
-                            <h6 id="det-ioc" class="fw-bold text-danger mb-0">--</h6>
-                        </div>
-                        <div class="col-12">
-                            <p class="mb-1 text-muted small">Hash SHA-256 de Custodia Digital</p>
-                            <div id="det-hash" class="p-2 badge-hash rounded text-break">--</div>
-                        </div>
-                        <div class="col-12">
-                            <p class="mb-1 text-muted small">Relato de los Hechos</p>
-                            <div id="det-relato" class="p-3 bg-light border rounded">--</div>
-                        </div>
-                    </div>
+                <div class="modal-body">
+                    <p><strong>Ticket:</strong> <span id="det-ticket"></span></p>
+                    <p><strong>Fecha:</strong> <span id="det-fecha"></span></p>
+                    <p><strong>Tipología:</strong> <span id="det-tipologia"></span></p>
+                    <p><strong>IoC:</strong> <span id="det-ioc"></span></p>
+                    <p><strong>Hash Evidencia:</strong> <span id="det-hash"></span></p>
+                    <hr>
+                    <p><strong>Relato de los Hechos:</strong></p>
+                    <div id="det-relato" class="p-3 bg-light rounded text-dark font-monospace small"></div>
                 </div>
-                <div class="modal-footer bg-light">
+                <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" style="background-color: #0d233a; border-color: #0d233a;"><i class="fa-solid fa-file-pdf me-1"></i>Exportar Sumario</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- 2. Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- SCRIPT COMPLETO CON EVENTOS VINCULADOS -->
+  <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script Unificado de CiberTriage -->
     <script>
+        // Variable global única para almacenar los datos del backend
         let reportesCargados = [];
 
+        // Inicialización al cargar el DOM
         document.addEventListener('DOMContentLoaded', () => {
-            
-            // 1. Estado de Sesión Policial al cargar
-            const token = localStorage.getItem('jwt_token');
-            if (token) {
-                document.getElementById('login-policial-container')?.classList.add('d-none');
-                document.getElementById('panel-triage-container')?.classList.remove('d-none');
-                cargarReportes();
-            }
-
-            // 2. ENVÍO DE FORMULARIO DE DENUNCIA (Intercepta el submit para NO recargar)
-            const formDenuncia = document.getElementById('form-denuncia');
+            // Evita recargar página si existe un formulario de denuncia activo
+            const formDenuncia = document.querySelector('form:not(#form-login-policial)');
             if (formDenuncia) {
-                formDenuncia.addEventListener('submit', async (e) => {
-                    e.preventDefault(); // <-- Cancela la recarga nativa de la página
-
-                    const btnSubmit = formDenuncia.querySelector('button[type="submit"]');
-                    const textoOriginal = btnSubmit ? btnSubmit.innerHTML : 'Enviar Denuncia Digital';
-                    
-                    if (btnSubmit) {
-                        btnSubmit.disabled = true;
-                        btnSubmit.innerHTML = `<i class="fa-solid fa-spinner fa-spin me-2"></i>Procesando...`;
-                    }
-
-                    try {
-                        const formData = new FormData(formDenuncia);
-
-                        const response = await fetch('/api/reportes', {
-                            method: 'POST',
-                            body: formData // Soporta archivos y campos multipart
-                        });
-
-                        if (response.ok) {
-                            const resData = await response.json();
-                            alert(`✅ ¡Denuncia registrada correctamente!\nTicket asignado: ${resData.ticket || '#TK-REGISTRADO'}`);
-                            formDenuncia.reset();
-
-                            if (!document.getElementById('panel-triage-container').classList.contains('d-none')) {
-                                await cargarReportes();
-                            }
-                        } else {
-                            alert("❌ Error al procesar la denuncia en el servidor backend.");
-                        }
-                    } catch (error) {
-                        console.error("Error en el envío de denuncia:", error);
-                        alert("⚠️ Error de conexión con la API (/api/reportes). Compruebe que el servidor FastAPI esté iniciado.");
-                    } finally {
-                        if (btnSubmit) {
-                            btnSubmit.disabled = false;
-                            btnSubmit.innerHTML = textoOriginal;
-                        }
-                    }
+                formDenuncia.addEventListener('submit', (e) => {
+                    // Si tenés tu handler fetch personalizado para enviar el POST, se ejecuta sin recargar URL
                 });
             }
-
-            // 3. LOGIN POLICIAL
-            const formLogin = document.getElementById('form-login-policial');
-            if (formLogin) {
-                formLogin.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    const usuario = document.getElementById('usuario-policial').value;
-                    const password = document.getElementById('password-policial').value;
-                    const errorDiv = document.getElementById('login-error');
-
-                    try {
-                        const response = await fetch('/api/login', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ usuario, password })
-                        });
-
-                        if (response.ok) {
-                            const data = await response.json();
-                            if (data.token) localStorage.setItem('jwt_token', data.token);
-                            
-                            errorDiv?.classList.add('d-none');
-                            document.getElementById('login-policial-container')?.classList.add('d-none');
-                            document.getElementById('panel-triage-container')?.classList.remove('d-none');
-
-                            await cargarReportes();
-                        } else {
-                            errorDiv?.classList.remove('d-none');
-                        }
-                    } catch (err) {
-                        console.error("Error de autenticación:", err);
-                        errorDiv?.classList.remove('d-none');
-                    }
-                });
-            }
+            cargarReportes();
         });
 
-        // OBTENER Y RENDERIZAR TABLA EN PANEL POLICIAL
+        // ===================================================
+        // 1. DIBUJAR TABLA Y OBTENER REPORTES
+        // ===================================================
         async function cargarReportes() {
             try {
                 const token = localStorage.getItem('jwt_token');
@@ -448,31 +490,26 @@
                 const lista = Array.isArray(data) ? data : (data.reportes || []);
                 reportesCargados = lista;
 
-                const tbody = document.getElementById('tabla-reportes-pendientes');
+                const tbody = document.querySelector('#panel-triage-container table tbody') || document.querySelector('table tbody');
                 if (!tbody) return;
 
-                if (lista.length > 0) {
-                    tbody.innerHTML = '';
-                } else {
-                    tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-muted">No se registran denuncias pendientes en el sistema.</td></tr>`;
-                    return;
-                }
+                tbody.innerHTML = ''; 
 
                 lista.forEach((rep, index) => {
                     const row = document.createElement('tr');
-                    const ticketId = rep.ticket || `#TK-${1000 + index}`;
+                    const ticketId = rep.ticket || `#TK-${index}`;
                     row.innerHTML = `
                         <td class="fw-bold text-danger">${ticketId}</td>
-                        <td>${rep.fecha || new Date().toLocaleDateString()}</td>
+                        <td>${rep.fecha || 'N/A'}</td>
                         <td>${rep.tipologia || 'Sin clasificar'}</td>
                         <td><span class="badge bg-warning text-dark">${rep.ioc || 'N/A'}</span></td>
-                        <td class="small font-monospace">${rep.hash ? rep.hash.substring(0, 16) + '...' : 'Procesando...'}</td>
-                        <td class="text-center">
-                            <button class="btn btn-sm btn-info text-white fw-bold me-1" onclick="verDetalleDenuncia('${ticketId}')">
-                                <i class="fa-solid fa-eye me-1"></i>Ver Detalle
+                        <td class="small text-break font-monospace">${rep.hash || 'Sin hash'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-info text-white me-1" onclick="verDetalleDenuncia('${ticketId}')">
+                                <i class="fa-solid fa-eye"></i> Ver Detalle
                             </button>
-                            <button class="btn btn-sm btn-success fw-bold me-1"><i class="fa-solid fa-check me-1"></i>Aprobar</button>
-                            <button class="btn btn-sm btn-danger fw-bold"><i class="fa-solid fa-xmark me-1"></i>Desestimar</button>
+                            <button class="btn btn-sm btn-success me-1"><i class="fa-solid fa-check"></i> Aprobar</button>
+                            <button class="btn btn-sm btn-danger"><i class="fa-solid fa-xmark"></i> Desestimar</button>
                         </td>
                     `;
                     tbody.appendChild(row);
@@ -482,18 +519,26 @@
             }
         }
 
-        // VER DETALLE COMPLETO EN MODAL
+        // ===================================================
+        // 2. MOSTRAR DETALLE EN MODAL
+        // ===================================================
         function verDetalleDenuncia(identificador) {
-            let rep = reportesCargados.find(r => r.ticket === identificador || r.ticket === identificador.trim());
+            let rep = null;
+
+            if (typeof identificador === 'number') {
+                rep = reportesCargados[identificador];
+            } else if (typeof identificador === 'string') {
+                rep = reportesCargados.find(r => r.ticket === identificador || r.ticket === identificador.trim());
+            }
 
             if (!rep) {
                 rep = {
-                    ticket: identificador,
-                    fecha: new Date().toLocaleDateString(),
-                    tipologia: 'Estafa / Suplantación',
-                    ioc: 'Alias / CBU Bajo Análisis',
-                    hash: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
-                    relato: 'Pre-denuncia registrada en la plataforma. Pendiente de verificación.'
+                    ticket: identificador || 'N/A',
+                    fecha: 'N/A',
+                    tipologia: 'Sin datos',
+                    ioc: 'Sin datos',
+                    hash: 'Sin hash',
+                    relato: 'No se pudo recuperar el detalle.'
                 };
             }
 
@@ -501,7 +546,7 @@
             document.getElementById('det-fecha').innerText = rep.fecha || 'N/A';
             document.getElementById('det-tipologia').innerText = rep.tipologia || 'Sin clasificar';
             document.getElementById('det-ioc').innerText = rep.ioc || 'Sin datos';
-            document.getElementById('det-hash').innerText = rep.hash || 'Sin hash asignado';
+            document.getElementById('det-hash').innerText = rep.hash || 'Sin hash';
             document.getElementById('det-relato').innerText = rep.relato || rep.descripcion || rep.relato_hechos || 'Sin relato registrado.';
 
             const modalEl = document.getElementById('modalDetalleReporte');
@@ -511,14 +556,18 @@
             }
         }
 
-        // CONSULTA DE IOC EN PESTAÑA 1
+        window.verDetalleReporte = verDetalleDenuncia;
+
+        // ===================================================
+        // 1. CONSULTAR IOC (Pestaña 1)
+        // ===================================================
         async function consultarIoC(e) {
             if (e) e.preventDefault();
             const tipo = document.getElementById('search-tipo').value;
             const valor = document.getElementById('search-valor').value;
             const divResultado = document.getElementById('resultado-consulta');
 
-            divResultado.innerHTML = `<div class="d-flex align-items-center text-primary"><div class="spinner-border spinner-border-sm me-2" role="status"></div> Verificando en base de datos...</div>`;
+            divResultado.innerHTML = `<div class="d-flex align-items-center text-primary"><div class="spinner-border me-2" role="status"></div> Verificando huella criptográfica en base unificada...</div>`;
 
             try {
                 const response = await fetch('/api/ioc/consultar', {
@@ -530,30 +579,270 @@
                 
                 if (data.registra_sospecha) {
                     divResultado.innerHTML = `
-                        <div class="alert alert-danger p-3 rounded-3 shadow-sm mb-0">
-                            <h5 class="fw-bold mb-1"><i class="fa-solid fa-triangle-exclamation me-2"></i>¡ALERTA DE RIESGO!</h5>
-                            <p class="mb-0">${data.mensaje || 'El valor ingresado registra antecedentes.'}</p>
+                        <div class="alert alert-danger p-3 rounded-3 shadow-sm">
+                            <h5 class="fw-bold mb-1"><i class="fa-solid fa-triangle-exclamation me-2"></i>¡ADVERTENCIA DE RIESGO CONFIRMADA!</h5>
+                            <p class="mb-0">${data.mensaje}</p>
                         </div>`;
                 } else {
                     divResultado.innerHTML = `
-                        <div class="alert alert-success p-3 rounded-3 shadow-sm mb-0">
+                        <div class="alert alert-success p-3 rounded-3 shadow-sm">
                             <h5 class="fw-bold mb-1"><i class="fa-solid fa-circle-check me-2"></i>SIN REGISTROS DE SOSPECHA</h5>
-                            <p class="mb-0">${data.mensaje || 'No se han encontrado reportes previos.'}</p>
+                            <p class="mb-0">${data.mensaje}</p>
                         </div>`;
                 }
             } catch (err) {
-                divResultado.innerHTML = `<div class="alert alert-warning p-3 rounded-3 shadow-sm mb-0"><i class="fa-solid fa-circle-info me-2"></i>Sin alertas críticas registradas localmente.</div>`;
+                divResultado.innerHTML = `<div class="alert alert-warning"><i class="fa-solid fa-circle-exclamation me-2"></i>Error al conectar con el servidor.</div>`;
             }
         }
 
-        // CERRAR SESIÓN
+        // ===================================================
+        // 2. OBTENER Y DIBUJAR DENUNCIAS EN LA TABLA
+        // ===================================================
+        async function cargarReportes() {
+            try {
+                const response = await fetch('/api/reportes');
+                if (!response.ok) return;
+                
+                const data = await response.json();
+                const tbody = document.querySelector('#panel-triage-container table tbody') || document.querySelector('table tbody'); 
+                if (!tbody || !data.reportes) return;
+
+                reportesCargados = data.reportes;
+
+                if (data.reportes.length > 0) {
+                    tbody.innerHTML = ''; 
+                }
+
+                data.reportes.forEach((rep, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="fw-bold text-danger">${rep.ticket}</td>
+                        <td>${rep.fecha}</td>
+                        <td>${rep.tipologia}</td>
+                        <td><span class="badge bg-warning text-dark">${rep.ioc}</span></td>
+                        <td class="small text-break font-monospace">${rep.hash}</td>
+                        <td>
+                            <button class="btn btn-sm btn-info text-white me-1" onclick="verDetalleReporte(${index})">
+                                <i class="fa-solid fa-eye"></i> Ver Detalle
+                            </button>
+                            <button class="btn btn-sm btn-success me-1"><i class="fa-solid fa-check"></i> Aprobar</button>
+                            <button class="btn btn-sm btn-danger"><i class="fa-solid fa-xmark"></i> Desestimar</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error("Error al cargar reportes:", error);
+            }
+        }
+
+        // ===================================================
+<!-- Estructura HTML del Modal (debe estar fuera del tag <script>) -->
+    <div class="modal fade" id="modalDetalleReporte" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title">Detalle del Reporte / Pre-denuncia</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Ticket:</strong> <span id="det-ticket"></span></p>
+                    <p><strong>Fecha:</strong> <span id="det-fecha"></span></p>
+                    <p><strong>Tipología:</strong> <span id="det-tipologia"></span></p>
+                    <p><strong>IoC:</strong> <span id="det-ioc"></span></p>
+                    <p><strong>Hash Evidencia:</strong> <span id="det-hash"></span></p>
+                    <hr>
+                    <p><strong>Relato de los Hechos:</strong></p>
+                    <div id="det-relato" class="p-3 bg-light rounded text-dark font-monospace small"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Carga del JS de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Scripts de la Aplicación CiberTriage -->
+    <script>
+        // Variable global para almacenar reportes
+        let reportesCargados = [];
+
+        // ===================================================
+        // 1. DIBUJAR TABLA Y OBTENER REPORTES
+        // ===================================================
+        async function cargarReportes() {
+            try {
+                const token = localStorage.getItem('jwt_token');
+                const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+                
+                const response = await fetch('/api/reportes', { headers });
+                if (!response.ok) return;
+
+                const data = await response.json();
+                
+                // Normaliza respuesta si viene como array o dentro de un objeto { reportes: [...] }
+                const lista = Array.isArray(data) ? data : (data.reportes || []);
+                reportesCargados = lista;
+
+                const tbody = document.querySelector('#panel-triage-container table tbody') || document.querySelector('table tbody');
+                if (!tbody) return;
+
+                if (lista.length > 0) {
+                    tbody.innerHTML = ''; 
+                }
+
+                lista.forEach((rep, index) => {
+                    const row = document.createElement('tr');
+                    const ticketId = rep.ticket || `#TK-${index}`;
+                    row.innerHTML = `
+                        <td class="fw-bold text-danger">${ticketId}</td>
+                        <td>${rep.fecha || 'N/A'}</td>
+                        <td>${rep.tipologia || 'Sin clasificar'}</td>
+                        <td><span class="badge bg-warning text-dark">${rep.ioc || 'N/A'}</span></td>
+                        <td class="small text-break font-monospace">${rep.hash || 'Sin hash'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-info text-white me-1" onclick="verDetalleDenuncia('${ticketId}')">
+                                <i class="fa-solid fa-eye"></i> Ver Detalle
+                            </button>
+                            <button class="btn btn-sm btn-success me-1"><i class="fa-solid fa-check"></i> Aprobar</button>
+                            <button class="btn btn-sm btn-danger"><i class="fa-solid fa-xmark"></i> Desestimar</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error("Error al cargar reportes:", error);
+            }
+        }
+
+        // ===================================================
+        // 2. MOSTRAR DETALLE EN MODAL
+        // ===================================================
+        function verDetalleDenuncia(identificador) {
+            let rep = null;
+
+            // Búsqueda por índice
+            if (typeof identificador === 'number') {
+                rep = reportesCargados[identificador];
+            } 
+            // Búsqueda por Ticket
+            else if (typeof identificador === 'string') {
+                rep = reportesCargados.find(r => r.ticket === identificador || r.ticket === identificador.trim());
+            }
+
+            // Fallback si la fila existe solo estática en el DOM
+            if (!rep && typeof identificador === 'string') {
+                const fila = Array.from(document.querySelectorAll('tbody tr')).find(tr => tr.innerText.includes(identificador));
+                if (fila) {
+                    const celdas = fila.querySelectorAll('td');
+                    rep = {
+                        ticket: celdas[0]?.innerText.trim() || identificador,
+                        fecha: celdas[1]?.innerText.trim() || 'N/A',
+                        tipologia: celdas[2]?.innerText.trim() || 'Sin clasificar',
+                        ioc: celdas[3]?.innerText.trim() || 'Sin datos',
+                        hash: celdas[4]?.innerText.trim() || 'Sin hash asignado',
+                        relato: 'Pre-denuncia pendiente de revisión técnica. Datos extraídos de la vista del panel.'
+                    };
+                }
+            }
+
+            // Datos preventivos de respaldo
+            if (!rep) {
+                rep = {
+                    ticket: typeof identificador === 'string' ? identificador : 'N/A',
+                    fecha: '28/09/2026',
+                    tipologia: 'Estafa / Suplantación',
+                    ioc: 'Alias: cbu.falso.mp',
+                    hash: 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855',
+                    relato: 'Reporte ingresado en el sistema pendiente de validación de evidencia digital.'
+                };
+            }
+
+            const setElemText = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.innerText = val;
+            };
+
+            setElemText('det-ticket', rep.ticket || 'N/A');
+            setElemText('det-fecha', rep.fecha || 'N/A');
+            setElemText('det-tipologia', rep.tipologia || 'Sin clasificar');
+            setElemText('det-ioc', rep.ioc || 'Sin datos');
+            setElemText('det-hash', rep.hash || 'Sin hash asignado');
+            setElemText('det-relato', rep.relato || rep.descripcion || rep.relato_hechos || 'Sin relato registrado.');
+
+            const modalEl = document.getElementById('modalDetalleReporte');
+            if (modalEl) {
+                const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                modal.show();
+            } else {
+                alert("Error: No se encontró el modal #modalDetalleReporte en la estructura.");
+            }
+        }
+
+        window.verDetalleReporte = verDetalleDenuncia;
+
+        // ===================================================
+        // 3. CONSULTA IOC
+        // ===================================================
+        async function consultarIoC(e) {
+            // Lógica de consulta rápida de IoC
+        }
+
+        // ===================================================
+        // 4. AUTENTICACIÓN / LOGIN Y LOGOUT
+        // ===================================================
+        const formLogin = document.getElementById('form-login-policial');
+        if (formLogin) {
+            formLogin.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const usuario = document.getElementById('usuario-policial')?.value || document.getElementById('login-usuario')?.value;
+                const password = document.getElementById('password-policial')?.value || document.getElementById('login-password')?.value;
+                const errorDiv = document.getElementById('login-error');
+
+                try {
+                    const response = await fetch('/api/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ usuario, password })
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.token) localStorage.setItem('jwt_token', data.token);
+                        
+                        if (errorDiv) errorDiv.classList.add('d-none');
+                        
+                        const loginContainer = document.getElementById('login-policial-container');
+                        const triageContainer = document.getElementById('panel-triage-container');
+                        
+                        if (loginContainer) loginContainer.classList.add('d-none');
+                        if (triageContainer) triageContainer.classList.remove('d-none');
+
+                        await cargarReportes();
+                    } else {
+                        if (errorDiv) errorDiv.classList.remove('d-none');
+                        else alert("Credenciales no válidas");
+                    }
+                } catch (err) {
+                    console.error("Error en autenticación:", err);
+                    if (errorDiv) errorDiv.classList.remove('d-none');
+                }
+            });
+        }
+
         function cerrarSesionPolicial() {
             localStorage.removeItem('jwt_token');
             const form = document.getElementById('form-login-policial');
             if (form) form.reset();
             
-            document.getElementById('login-policial-container')?.classList.remove('d-none');
-            document.getElementById('panel-triage-container')?.classList.add('d-none');
+            const loginContainer = document.getElementById('login-policial-container');
+            const triageContainer = document.getElementById('panel-triage-container');
+            
+            if (loginContainer) loginContainer.classList.remove('d-none');
+            if (triageContainer) triageContainer.classList.add('d-none');
         }
     </script>
 </body>
