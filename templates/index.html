@@ -427,81 +427,48 @@
     </div>
 </div>
 
-<!-- MODAL PARA VER DETALLE COMPLETO DE LA DENUNCIA Y EVIDENCIA -->
-<div class="modal fade" id="modalDetalleDenuncia" tabindex="-1" aria-labelledby="modalDetalleLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header bg-dark text-white">
-        <h5 class="modal-title fw-bold" id="modalDetalleLabel"><i class="fa-solid fa-folder-open me-2 text-warning"></i>Detalle de Pre-Denuncia Digital <span id="modal-ticket-id"></span></h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        
-        <!-- DATOS DEL DENUNCIANTE -->
-        <div class="card mb-3 border-primary">
-            <div class="card-header bg-primary text-white fw-bold">
-                <i class="fa-solid fa-user me-2"></i>1. Datos del Ciudadano Denunciante
+<!-- Modal para Ver Detalle de la Pre-Denuncia -->
+    <div class="modal fade" id="modalDetalleReporte" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-dark text-white">
+            <h5 class="modal-title" id="modalDetalleTitle"><i class="fa-solid fa-file-contract me-2"></i>Detalle de Pre-Denuncia</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row mb-3">
+              <div class="col-md-6"><strong>Ticket:</strong> <span id="det-ticket" class="text-danger fw-bold"></span></div>
+              <div class="col-md-6"><strong>Fecha:</strong> <span id="det-fecha"></span></div>
             </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6"><strong>Nombre y Apellido:</strong> <span id="det-nombre">Juan Pérez</span></div>
-                    <div class="col-md-6"><strong>DNI / CUIL:</strong> <span id="det-dni">20351234567</span></div>
-                    <div class="col-md-6 mt-2"><strong>Teléfono:</strong> <span id="det-telefono">3434123456</span></div>
-                    <div class="col-md-6 mt-2"><strong>Email:</strong> <span id="det-email">juanperez@email.com</span></div>
-                    <div class="col-12 mt-2"><strong>Domicilio:</strong> <span id="det-domicilio">San Martín 1234, Paraná, Entre Ríos</span></div>
-                </div>
+            <div class="row mb-3">
+              <div class="col-md-6"><strong>Tipología:</strong> <span id="det-tipologia"></span></div>
+              <div class="col-md-6"><strong>IoC Detectado:</strong> <span id="det-ioc" class="badge bg-warning text-dark"></span></div>
             </div>
+            <div class="mb-3">
+              <strong>Hash SHA-256 de Evidencia (ISO/IEC 27037):</strong>
+              <div id="det-hash" class="p-2 bg-light border rounded font-monospace small text-break"></div>
+            </div>
+            <hr>
+            <div class="mb-3">
+              <h6 class="fw-bold text-primary"><i class="fa-solid fa-align-left me-2"></i>Relato de los Hechos:</h6>
+              <div id="det-relato" class="p-3 bg-light border rounded text-dark text-wrap" style="white-space: pre-line;">
+                <!-- Aquí se renderiza el texto del relato -->
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
         </div>
-
-        <!-- DETALLE DEL DELITO Y RELATO -->
-        <div class="card mb-3 border-purple" style="border-color: #7e22ce;">
-            <div class="card-header text-white fw-bold" style="background-color: #7e22ce;">
-                <i class="fa-solid fa-file-lines me-2"></i>2. Relato del Incidente y Perjuicio
-            </div>
-            <div class="card-body">
-                <p><strong>Tipología del Delito:</strong> <span id="det-tipologia" class="badge bg-secondary">Phishing / Suplantación de Identidad</span></p>
-                <p><strong>Monto Estimado del Perjuicio:</strong> <span id="det-monto" class="fw-bold text-danger">$ 150.000,00 ARS</span></p>
-                <strong>Descripción / Relato de los Hechos:</strong>
-                <div class="p-3 bg-light rounded border mt-2" id="det-descripcion">
-                    El ciudadano indica haber recibido un llamado telefónico ofreciendo una promoción de descuento. Le solicitaron ingresar a un enlace falso y transferir el dinero a un alias sospechoso.
-                </div>
-            </div>
-        </div>
-
-        <!-- IOCS Y EVIDENCIA DIGITAL CON HASH -->
-        <div class="card mb-3 border-success">
-            <div class="card-header bg-success text-white fw-bold">
-                <i class="fa-solid fa-file-shield me-2"></i>3. Evidencia Digital e Indicadores (IoCs)
-            </div>
-            <div class="card-body">
-                <p><strong>CBU/CVU Sospechoso:</strong> <code id="det-cbu">0000003100012345678901</code></p>
-                <p><strong>Alias:</strong> <span id="det-alias" class="badge bg-warning text-dark">cbu.falso.mp</span></p>
-                <p><strong>Teléfono Estafador:</strong> <span id="det-tel-sospechoso">1123456789</span></p>
-                <hr>
-                <h6><i class="fa-solid fa-paperclip me-2 text-success"></i>Archivos de Prueba y Huellas SHA-256:</h6>
-                <ul class="list-group mt-2" id="det-archivos-lista">
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <i class="fa-solid fa-file-image me-2 text-primary"></i><strong>comprobante_transferencia.png</strong>
-                            <br><small class="text-muted">Hash SHA-256: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</small>
-                        </div>
-                        <a href="#" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-download me-1"></i>Descargar</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- Bootstrap 5 JS & Script -->
+    <!-- Bootstrap 5 JS & Script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // Variable global para almacenar los datos recibidos del backend
+        let reportesCargados = [];
+
         // ===================================================
         // 1. CONSULTAR IOC (Pestaña 1)
         // ===================================================
@@ -551,11 +518,13 @@
                 const tbody = document.querySelector('#panel-triage-container table tbody') || document.querySelector('table tbody'); 
                 if (!tbody || !data.reportes) return;
 
+                reportesCargados = data.reportes;
+
                 if (data.reportes.length > 0) {
                     tbody.innerHTML = ''; 
                 }
 
-                data.reportes.forEach(rep => {
+                data.reportes.forEach((rep, index) => {
                     const row = document.createElement('tr');
                     row.innerHTML = `
                         <td class="fw-bold text-danger">${rep.ticket}</td>
@@ -564,7 +533,9 @@
                         <td><span class="badge bg-warning text-dark">${rep.ioc}</span></td>
                         <td class="small text-break font-monospace">${rep.hash}</td>
                         <td>
-                            <button class="btn btn-sm btn-info text-white me-1"><i class="fa-solid fa-eye"></i> Ver Detalle</button>
+                            <button class="btn btn-sm btn-info text-white me-1" onclick="verDetalleReporte(${index})">
+                                <i class="fa-solid fa-eye"></i> Ver Detalle
+                            </button>
                             <button class="btn btn-sm btn-success me-1"><i class="fa-solid fa-check"></i> Aprobar</button>
                             <button class="btn btn-sm btn-danger"><i class="fa-solid fa-xmark"></i> Desestimar</button>
                         </td>
@@ -577,7 +548,28 @@
         }
 
         // ===================================================
-        // 3. INICIO DE SESIÓN Y CONTROL DE SESIÓN POLICIAL
+        // 3. MOSTRAR RELATO Y DETALLE EN EL MODAL
+        // ===================================================
+        function verDetalleReporte(index) {
+            const rep = reportesCargados[index];
+            if (!rep) return;
+
+            document.getElementById('det-ticket').innerText = rep.ticket || 'N/A';
+            document.getElementById('det-fecha').innerText = rep.fecha || 'N/A';
+            document.getElementById('det-tipologia').innerText = rep.tipologia || 'Sin clasificar';
+            document.getElementById('det-ioc').innerText = rep.ioc || 'Sin datos';
+            document.getElementById('det-hash').innerText = rep.hash || 'Sin hash asignado';
+            
+            // Toma el relato o descripcion enviado por la API
+            document.getElementById('det-relato').innerText = rep.relato || rep.descripcion || rep.relato_hechos || 'Sin relato registrado.';
+
+            const modalEl = document.getElementById('modalDetalleReporte');
+            const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+            modal.show();
+        }
+
+        // ===================================================
+        // 4. INICIO DE SESIÓN POLICIAL
         // ===================================================
         const formLogin = document.getElementById('form-login-policial');
         if (formLogin) {
@@ -606,7 +598,6 @@
                         if (loginContainer) loginContainer.classList.add('d-none');
                         if (triageContainer) triageContainer.classList.remove('d-none');
 
-                        // Carga dinámicamente las pre-denuncias guardadas
                         await cargarReportes();
                         
                     } else {
@@ -633,7 +624,7 @@
         }
 
         // ===================================================
-        // 4. ENVÍO DE FORMULARIO DE PRE-DENUNCIA
+        // 5. ENVÍO DE FORMULARIO DE PRE-DENUNCIA
         // ===================================================
         const formDenuncia = document.getElementById('form-denuncia');
         if (formDenuncia) {
@@ -661,7 +652,7 @@
             });
         }
 
-        // Ejecución al cargar el documento
+        // Cargar reportes si el panel de auditoría está visible de entrada
         document.addEventListener('DOMContentLoaded', () => {
             const triageContainer = document.getElementById('panel-triage-container');
             if (triageContainer && !triageContainer.classList.contains('d-none')) {
