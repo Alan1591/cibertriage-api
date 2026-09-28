@@ -334,14 +334,93 @@
                 </div>
             </div>
 
-            <!-- VENTANA 3: AUDITORÍA POLICIAL -->
-            <div class="tab-pane fade" id="tab-auditoria" role="tabpanel">
-                <div class="card card-custom p-4">
-                    <h4 class="text-primary fw-bold mb-3"><i class="fa-solid fa-user-gear me-2"></i>Panel de Auditoría Técnico-Policial</h4>
-                    <p class="text-muted">Espacio restringido para personal de la Policía de Entre Ríos. Permite auditar metadatos, verificar hashes criptográficos y habilitar la alerta preventiva de IoCs.</p>
-                    <div class="alert alert-primary">
-                        <i class="fa-solid fa-circle-info me-2"></i> Los Reportes Digitales procesados ingresan con estado <strong>PENDIENTE_VERIFICACION</strong>. Una vez que el personal especialista valida los Hashes SHA-256 de las pruebas, los identificadores ingresan a la base de alerta comunitaria.
+<!-- VENTANA 3: AUDITORÍA POLICIAL (CON AUTENTICACIÓN Y TRIAGE) -->
+<div class="tab-pane fade" id="tab-auditoria" role="tabpanel">
+    <div class="card card-custom p-4">
+        <h4 class="text-primary fw-bold mb-3">
+            <i class="fa-solid fa-user-shield me-2"></i>Panel de Auditoría y Triage Policial
+        </h4>
+        <p class="text-muted">Espacio restringido para personal policial auditado. Acceso mediante credenciales con control de roles (RBAC).</p>
+
+        <!-- FORMULARIO DE ACCESO / LOGIN -->
+        <div id="login-policial-container" class="card border border-primary mb-3 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title fw-bold text-primary mb-3">
+                    <i class="fa-solid fa-lock me-2"></i>Inicio de Sesión Operativo
+                </h5>
+                <form id="form-login-policial">
+                    <div class="row g-3">
+                        <div class="col-md-5">
+                            <label for="usuario-policial" class="form-label fw-bold">Legajo / Usuario Policial:</label>
+                            <input type="text" class="form-control" id="usuario-policial" placeholder="Ej: LP-38491" required>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="password-policial" class="form-label fw-bold">Contraseña:</label>
+                            <input type="password" class="form-control" id="password-policial" placeholder="••••••••" required>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100 fw-bold">
+                                <i class="fa-solid fa-right-to-bracket me-1"></i>Ingresar
+                            </button>
+                        </div>
                     </div>
+                </form>
+                <div id="login-error" class="alert alert-danger mt-3 d-none mb-0" role="alert">
+                    <i class="fa-solid fa-circle-exclamation me-2"></i>Credenciales policiales inválidas o no autorizadas.
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL DE TRIAGE (SE DESPLEGARÁ AL AUTENTICAR) -->
+        <div id="panel-triage-container" class="d-none mt-3">
+            <div class="alert alert-success d-flex justify-content-between align-items-center shadow-sm" role="alert">
+                <span>
+                    <i class="fa-solid fa-user-check me-2"></i>Sesión activa: <strong>LP-38491 — División Custodia y Protección</strong>
+                </span>
+                <button class="btn btn-sm btn-outline-danger fw-bold" onclick="cerrarSesionPolicial()">
+                    <i class="fa-solid fa-power-off me-1"></i>Cerrar Sesión
+                </button>
+            </div>
+
+            <h5 class="fw-bold text-dark mt-4 mb-3">
+                <i class="fa-solid fa-list-check me-2 text-primary"></i>Pre-Denuncias Pendientes de Verificación
+            </h5>
+            
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered align-middle bg-white shadow-sm">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Ticket</th>
+                            <th>Fecha</th>
+                            <th>Tipología</th>
+                            <th>IoC Sospechoso</th>
+                            <th>Hash SHA-256 (ISO/IEC 27037)</th>
+                            <th class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-reportes-pendientes">
+                        <tr>
+                            <td><code>#TK-2026-0891</code></td>
+                            <td>28/09/2026</td>
+                            <td>Estafa / Suplantación</td>
+                            <td><span class="badge bg-warning text-dark">Alias: cbu.falso.mp</span></td>
+                            <td><small class="text-muted">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</small></td>
+                            <td class="text-center">
+                                <button class="btn btn-sm btn-success fw-bold me-1">
+                                    <i class="fa-solid fa-check me-1"></i>Aprobar IoC
+                                </button>
+                                <button class="btn btn-sm btn-danger fw-bold">
+                                    <i class="fa-solid fa-xmark me-1"></i>Desestimar
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
                 </div>
             </div>
 
