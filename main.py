@@ -1,5 +1,7 @@
 import os
-from fastapi import FastAPI, HTTPException, status
+import hashlib
+from typing import Optional
+from fastapi import FastAPI, HTTPException, status, Form, UploadFile, File
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
@@ -17,7 +19,7 @@ if os.path.exists(static_dir):
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# Base de datos simulada con tu propio usuario personal
+# Base de datos simulada
 POLICE_USERS_DB = {
     "AlanYfran": {
         "legajo": "30689",
@@ -56,11 +58,10 @@ async def read_index():
     return FileResponse(index_path)
 
 # -------------------------------------------------------------------
-# Endpoint de autenticación API (Acepta tu contraseña directa)
+# Endpoint de autenticación API
 # -------------------------------------------------------------------
 @app.post("/api/login")
 async def login_policial(credentials: LoginSchema):
-    # Buscar usuario sin importar mayúsculas/minúsculas
     user_key = next((k for k in POLICE_USERS_DB if k.lower() == credentials.usuario.strip().lower()), None)
     
     if not user_key:
@@ -71,7 +72,6 @@ async def login_policial(credentials: LoginSchema):
     
     user = POLICE_USERS_DB[user_key]
     
-    # Verificación de contraseña
     password_ok = (credentials.password == user.get("password_plain"))
     if not password_ok:
         try:
@@ -93,4 +93,35 @@ async def login_policial(credentials: LoginSchema):
         "nombre": user["nombre"],
         "rol": user["rol"],
         "token": "session_token_cibertriage_2026_ok"
+    }
+
+# -------------------------------------------------------------------
+# Endpoint para recibir Pre-Denuncias Digitales y generar Hash SHA-256
+# -------------------------------------------------------------------
+@app.post("/api/reporte-digital")
+async def recibir_reporte(
+    nombre: Optional[str] = Form(None),
+    dni: Optional[str] = Form(None),
+    email: Optional[str] = Form(None),
+    telefono: Optional[str] = Form(None),
+    domicilio: Optional[str] = Form(None),
+    tipologia: Optional[str] = Form(None),
+    descripcion: Optional[str] = Form(None),
+    monto: Optional[str] = Form(None),
+    cbu_alias: Optional[str] = Form(None),
+    archivo: Optional[UploadFile] = File(None)
+):
+    # Calcular hash de la evidencia o del contenido del formulario
+    if archivo:
+        contenido = await archivo.read()
+        sha256_hash = hashlib.sha256(contenido).hexdigest()
+    else:
+        # Si no adjuntó archivo, se genera un hash íntegro sobre la descripción
+        data_string = f"{nombre}-{dni}-{descripcion}"
+        sha256_hash = hashlib.sha256(data_string.encode('utf-8')).hexdigest()
+
+    return {
+        "status": "ok",
+        "message": "Pre-denuncia registrada con éxito.",
+        "hash": sha256_hash
     }
