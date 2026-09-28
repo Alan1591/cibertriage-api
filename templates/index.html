@@ -293,7 +293,7 @@
                                 <input type="text" name="url_sitio_falso" class="form-control" placeholder="Ej: http://banco-falso.com">
                             </div>
 
-                            <!-- SECCIÓN 4: VERDE -->
+<!-- SECCIÓN 4: VERDE -->
                             <div class="col-12">
                                 <div class="section-header-verde">
                                     <h5><i class="fa-solid fa-paperclip me-2"></i>4. Comprobantes y Fotos de Prueba (Evidencia Digital)</h5>
@@ -302,8 +302,11 @@
                             </div>
 
                             <div class="col-12">
-                                <label class="form-label fw-bold">Adjuntar Capturas / Comprobantes *</label>
-                                <input type="file" name="archivos" class="form-control" multiple required>
+                                <label for="archivo" class="form-label fw-bold">Adjuntar Evidencia Digital / Comprobante (Opcional):</label>
+                                <input class="form-control" type="file" id="archivo" name="archivo" accept="image/*,.pdf" multiple>
+                                <div class="form-text text-muted">
+                                    En caso de tentativa o si no cuenta con capturas/comprobantes, puede dejar este campo vacío. Puede seleccionar más de un archivo a la vez.
+                                </div>
                                 
                                 <!-- EXPLICACIÓN TÉCNICO-JURÍDICA SOBRE LA EVIDENCIA DIGITAL -->
                                 <div class="alert alert-light border border-secondary mt-3 p-3 text-secondary small rounded-3">
@@ -322,7 +325,6 @@
                                     </ul>
                                 </div>
                             </div>
-
                             <!-- BOTÓN DE ENVIAR ROJO LLAMATIVO -->
                             <div class="col-12 mt-4 text-end">
                                 <button type="submit" class="btn btn-custom-submit">
