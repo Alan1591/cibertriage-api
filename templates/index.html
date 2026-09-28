@@ -9,9 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-blue: #0f172a;
-            --accent-blue: #2563eb;
-            --bg-light: #f8fafc;
+            --primary-dark: #0f172a;
+            --bg-light: #f1f5f9;
         }
         body {
             background-color: var(--bg-light);
@@ -21,81 +20,114 @@
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: #ffffff;
             padding: 1.8rem 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
         }
         .nav-pills .nav-link {
-            color: #475569;
-            font-weight: 600;
-            padding: 0.8rem 1.2rem;
+            color: #334155;
+            font-weight: 700;
+            padding: 0.9rem 1.2rem;
             border-radius: 8px;
             transition: all 0.3s ease;
         }
         .nav-pills .nav-link.active {
-            background-color: var(--accent-blue) !important;
+            background-color: #2563eb !important;
             color: #ffffff !important;
-            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 4px 10px rgba(37, 99, 235, 0.4);
         }
         .card-custom {
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             background: #ffffff;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
         }
 
-        /* BANNER Y ENCABEZADOS DE SECCIÓN CON COLORES LLAMATIVOS (Estilo Captura) */
-        .section-header-blue {
-            background-color: #eff6ff;
-            border: 2px solid #3b82f6;
-            border-radius: 8px;
-            padding: 12px 18px;
+        /* -----------------------------------------------------------------
+           SECCIONES CON COLORES LLAMATIVOS Y BORDES DESTACADOS (Estilo Imagen)
+           ----------------------------------------------------------------- */
+
+        /* SECCIÓN 1: AZUL FRANCIA */
+        .section-header-azul-francia {
+            background-color: #e0f2fe;
+            border: 3px solid #0055ff; /* Azul Francia */
+            border-radius: 10px;
+            padding: 14px 20px;
             margin-top: 1.5rem;
             margin-bottom: 1.2rem;
+            box-shadow: 0 2px 8px rgba(0, 85, 255, 0.15);
         }
-        .section-header-blue h5 { color: #1e40af; font-weight: 700; margin: 0; }
+        .section-header-azul-francia h5 {
+            color: #0033cc;
+            font-weight: 800;
+            font-size: 1.25rem;
+            margin: 0;
+        }
 
-        .section-header-amber {
-            background-color: #fefce8;
-            border: 2px solid #eab308;
-            border-radius: 8px;
-            padding: 12px 18px;
+        /* SECCIÓN 2: PÚRPURA FUERTE */
+        .section-header-purpura {
+            background-color: #f3e8ff;
+            border: 3px solid #7e22ce; /* Púrpura Fuerte */
+            border-radius: 10px;
+            padding: 14px 20px;
             margin-top: 1.5rem;
             margin-bottom: 1.2rem;
+            box-shadow: 0 2px 8px rgba(126, 34, 206, 0.15);
         }
-        .section-header-amber h5 { color: #854d0e; font-weight: 700; margin: 0; }
+        .section-header-purpura h5 {
+            color: #581c87;
+            font-weight: 800;
+            font-size: 1.25rem;
+            margin: 0;
+        }
 
-        .section-header-green {
-            background-color: #f0fdf4;
-            border: 2px solid #22c55e;
-            border-radius: 8px;
-            padding: 12px 18px;
+        /* SECCIÓN 3: ROJO IMPACTANTE */
+        .section-header-rojo {
+            background-color: #ffe4e6;
+            border: 3px solid #dc2626; /* Rojo */
+            border-radius: 10px;
+            padding: 14px 20px;
             margin-top: 1.5rem;
             margin-bottom: 1.2rem;
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.15);
         }
-        .section-header-green h5 { color: #166534; font-weight: 700; margin: 0; }
+        .section-header-rojo h5 {
+            color: #991b1b;
+            font-weight: 800;
+            font-size: 1.25rem;
+            margin: 0;
+        }
 
-        .section-header-purple {
-            background-color: #faf5ff;
-            border: 2px solid #a855f7;
-            border-radius: 8px;
-            padding: 12px 18px;
+        /* SECCIÓN 4: VERDE */
+        .section-header-verde {
+            background-color: #dcfce7;
+            border: 3px solid #16a34a; /* Verde */
+            border-radius: 10px;
+            padding: 14px 20px;
             margin-top: 1.5rem;
             margin-bottom: 1.2rem;
+            box-shadow: 0 2px 8px rgba(22, 163, 74, 0.15);
         }
-        .section-header-purple h5 { color: #6b21a8; font-weight: 700; margin: 0; }
+        .section-header-verde h5 {
+            color: #14532d;
+            font-weight: 800;
+            font-size: 1.25rem;
+            margin: 0;
+        }
 
+        /* Botón Enviar */
         .btn-custom-submit {
             background-color: #dc2626;
             color: white;
-            font-weight: 700;
-            padding: 0.85rem 2.5rem;
+            font-weight: 800;
+            padding: 0.9rem 2.8rem;
             border-radius: 8px;
             border: none;
-            font-size: 1.1rem;
-            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
-            transition: all 0.2s ease;
+            font-size: 1.15rem;
+            box-shadow: 0 4px 14px rgba(220, 38, 38, 0.4);
+            transition: all 0.2s ease-in-out;
         }
         .btn-custom-submit:hover {
             background-color: #b91c1c;
+            transform: translateY(-2px);
             color: white;
         }
     </style>
@@ -110,7 +142,7 @@
                 <span class="badge bg-primary text-wrap mt-1">PLATAFORMA DIGITAL DE RECEPCIÓN, AUDITORÍA TÉCNICO-POLICIAL Y PREVENCIÓN</span>
             </div>
             <div>
-                <a href="#" class="btn btn-outline-light btn-sm rounded-pill"><i class="fa-solid fa-mobile-screen-button me-1"></i> Descargar App (APK)</a>
+                <a href="#" class="btn btn-outline-light btn-sm rounded-pill fw-bold"><i class="fa-solid fa-mobile-screen-button me-1"></i> Descargar App (APK)</a>
             </div>
         </div>
     </header>
@@ -119,12 +151,12 @@
         <!-- Navegación por Ventanas -->
         <ul class="nav nav-pills nav-fill mb-4 bg-white p-2 rounded-3 shadow-sm" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="tab-consultas-tab" data-bs-toggle="pill" data-bs-target="#tab-consultas" type="button" role="tab">
+                <button class="nav-link" id="tab-consultas-tab" data-bs-toggle="pill" data-bs-target="#tab-consultas" type="button" role="tab">
                     <i class="fa-solid fa-magnifying-glass me-2"></i>Ventana 1: Consultas y Alerta
                 </button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="tab-reporte-tab" data-bs-toggle="pill" data-bs-target="#tab-reporte" type="button" role="tab">
+                <button class="nav-link active" id="tab-reporte-tab" data-bs-toggle="pill" data-bs-target="#tab-reporte" type="button" role="tab">
                     <i class="fa-solid fa-file-pen me-2"></i>Ventana 2: Reporte Digital
                 </button>
             </li>
@@ -139,7 +171,7 @@
         <div class="tab-content" id="pills-tabContent">
             
             <!-- VENTANA 1: CONSULTA DE IOC -->
-            <div class="tab-pane fade show active" id="tab-consultas" role="tabpanel">
+            <div class="tab-pane fade" id="tab-consultas" role="tabpanel">
                 <div class="card card-custom p-4 mb-4">
                     <h4 class="text-primary fw-bold"><i class="fa-solid fa-shield-cat me-2"></i>Consulta Rápida de Indicadores de Riesgo (IoC)</h4>
                     <p class="text-muted">Verifique CBU, CVU, Alias, Teléfono o Enlace sospechoso en la base preventiva unificada.</p>
@@ -166,135 +198,135 @@
             </div>
 
             <!-- VENTANA 2: REPORTE DIGITAL -->
-            <div class="tab-pane fade" id="tab-reporte" role="tabpanel">
+            <div class="tab-pane fade show active" id="tab-reporte" role="tabpanel">
                 <div class="card card-custom p-4">
-                    <h4 class="text-primary fw-bold mb-2"><i class="fa-solid fa-file-circle-plus me-2"></i>Registrar Nuevo Reporte Digital</h4>
-                    <p class="text-muted small">Complete las secciones a continuación para registrar la información requerida.</p>
+                    <h4 class="text-dark fw-bold mb-1"><i class="fa-solid fa-file-circle-plus me-2 text-primary"></i>Registrar Nuevo Reporte Digital</h4>
+                    <p class="text-muted small mb-3">Complete las secciones a continuación para registrar la información requerida.</p>
 
                     <form id="form-reporte" action="/api/reporte-digital" method="POST" enctype="multipart/form-data">
                         <div class="row g-3">
                             
-                            <!-- SECCIÓN 1: AZUL -->
+                            <!-- SECCIÓN 1: AZUL FRANCIA -->
                             <div class="col-12">
-                                <div class="section-header-blue">
+                                <div class="section-header-azul-francia">
                                     <h5><i class="fa-solid fa-address-card me-2"></i>1. Datos de Identificación del Ciudadano</h5>
-                                    <small class="text-muted d-block">Ingrese la información personal y datos de contacto actualizados.</small>
+                                    <small class="text-primary fw-semibold d-block">Ingrese la información personal y datos de contacto del denunciante.</small>
                                 </div>
                             </div>
 
                             <div class="col-md-3">
-                                <label class="form-label fw-semibold">CUIL / DNI *</label>
+                                <label class="form-label fw-bold">CUIL / DNI *</label>
                                 <input type="text" name="cuil_dni" class="form-control" placeholder="Ej: 20351234567" required>
                             </div>
                             <div class="col-md-5">
-                                <label class="form-label fw-semibold">Nombre y Apellido Completo *</label>
+                                <label class="form-label fw-bold">Nombre y Apellido Completo *</label>
                                 <input type="text" name="nombre_apellido" class="form-control" placeholder="Nombre completo" required>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label fw-semibold">Teléfono de Contacto / Móvil *</label>
+                                <label class="form-label fw-bold">Teléfono de Contacto / Móvil *</label>
                                 <input type="text" name="telefono_contacto" class="form-control" placeholder="Ej: 3434123456" required>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Correo Electrónico de Contacto *</label>
+                                <label class="form-label fw-bold">Correo Electrónico de Contacto *</label>
                                 <input type="email" name="email" class="form-control" placeholder="correo@ejemplo.com" required>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Domicilio Real (Calle, Número, Localidad) *</label>
+                                <label class="form-label fw-bold">Domicilio Real (Calle, Número, Localidad) *</label>
                                 <input type="text" name="domicilio" class="form-control" placeholder="Ej: San Martín 1234, Paraná" required>
                             </div>
 
-                            <!-- SECCIÓN 2: PURPURA -->
+                            <!-- SECCIÓN 2: PÚRPURA FUERTE -->
                             <div class="col-12">
-                                <div class="section-header-purple">
-                                    <h5><i class="fa-solid fa-triangle-exclamation me-2"></i>2. Detalle del Hecho y Clasificación del Delito</h5>
-                                    <small class="text-muted d-block">Indique la modalidad utilizada y el relato detallado del incidente.</small>
+                                <div class="section-header-purpura">
+                                    <h5><i class="fa-solid fa-triangle-exclamation me-2"></i>2. Detalle del Hecho y Tipología del Delito</h5>
+                                    <small class="text-purple fw-semibold d-block">Indique la modalidad utilizada y la narración del incidente.</small>
                                 </div>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Tipología Amplia del Ciberdelito *</label>
+                                <label class="form-label fw-bold">Tipología Amplia del Ciberdelito *</label>
                                 <select name="tipologia_delito" class="form-select" required>
                                     <option value="" disabled selected>-- Seleccione la modalidad --</option>
-                                    <option value="Phishing / Suplantación de Identidad (Bancos/Anses/Rentas)">Phishing / Suplantación de Identidad (Bancos / Entidades)</option>
-                                    <option value="Estafa en Compraventa Marketplace / Redes Sociales">Estafa en Compraventa Online (Facebook Marketplace / Instagram)</option>
-                                    <option value="Secuestro / Hackeo de Cuenta de WhatsApp">Secuestro / Hackeo de Cuenta de WhatsApp</option>
-                                    <option value="Acceso No Autorizado a Homebanking / Billetera Virtual">Acceso No Autorizado a Homebanking / Billetera Virtual</option>
-                                    <option value="Toma de Crédito Fraudulento Pre-aprobado">Toma de Crédito Fraudulento Pre-aprobado</option>
-                                    <option value="Fraude con Tarjeta de Crédito / Débito (Clonación)">Fraude con Tarjeta de Crédito / Débito (Clonación / Debin)</option>
-                                    <option value="Extorsión Digital / Sexshaming / Ransomware">Extorsión Digital / Ransomware / Secuestro de Datos</option>
-                                    <option value="Falsa Promesa de Empleo / Inversiones / Criptoactivos">Falsa Promesa de Empleo / Estafa con Criptomonedas / Piramidal</option>
-                                    <option value="Venta de Productos Inexistentes / Pasajes Falsos">Venta de Productos Inexistentes / Pasajes o Indumentaria Falsa</option>
+                                    <option value="Phishing / Suplantación de Identidad">Phishing / Suplantación de Identidad (Bancos / Entidades / Redes)</option>
+                                    <option value="Estafa en Compraventa Online">Estafa en Compraventa Online (Marketplace / Instagram)</option>
+                                    <option value="Secuestro de Cuenta de WhatsApp">Secuestro / Hackeo de Cuenta de WhatsApp</option>
+                                    <option value="Acceso No Autorizado a Homebanking">Acceso No Autorizado a Homebanking / Billeteras Virtuales</option>
+                                    <option value="Toma de Crédito Fraudulento">Toma de Crédito Fraudulento Pre-aprobado</option>
+                                    <option value="Fraude con Tarjeta de Crédito / Débito">Fraude con Tarjeta / Clonación / DEBIN</option>
+                                    <option value="Extorsión Digital / Ransomware">Extorsión Digital / Sexshaming / Ransomware</option>
+                                    <option value="Falsa Promesa de Inversiones / Cripto">Falsa Promesa de Empleo / Inversiones / Criptomonedas</option>
+                                    <option value="Venta de Productos Inexistentes">Venta de Productos Inexistentes / Pasajes Falsos</option>
                                     <option value="Otras Modalidades Informáticas">Otras Modalidades Informáticas</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold">Monto Estimado del Perjuicio ($ ARS)</label>
+                                <label class="form-label fw-bold">Monto Estimado del Perjuicio ($ ARS)</label>
                                 <input type="number" step="0.01" name="monto_estimado_ars" class="form-control" placeholder="0.00">
                             </div>
                             <div class="col-12">
-                                <label class="form-label fw-semibold">Descripción Detallada del Incidente *</label>
+                                <label class="form-label fw-bold">Descripción Detallada del Incidente *</label>
                                 <textarea name="descripcion_hecho" class="form-control" rows="4" placeholder="Relate de forma cronológica cómo ocurrió el contacto, qué instrucciones le dieron y qué acciones realizó..." required></textarea>
                             </div>
 
-                            <!-- SECCIÓN 3: AMARILLA / DORADA -->
+                            <!-- SECCIÓN 3: ROJO IMPACTANTE -->
                             <div class="col-12">
-                                <div class="section-header-amber">
+                                <div class="section-header-rojo">
                                     <h5><i class="fa-solid fa-user-ninja me-2"></i>3. Datos del Estafador o Cuenta Sospechosa (IoCs)</h5>
-                                    <small class="text-muted d-block">Complete los datos que tenga a mano (opcional).</small>
+                                    <small class="text-danger fw-semibold d-block">Complete los datos que tenga a mano (opcional).</small>
                                 </div>
                             </div>
 
                             <div class="col-md-3">
-                                <label class="form-label fw-semibold">CBU / CVU donde envió la plata</label>
+                                <label class="form-label fw-bold">CBU / CVU donde envió la plata</label>
                                 <input type="text" name="cbu_cvu_sospechoso" class="form-control" placeholder="22 números de la cuenta">
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label fw-semibold">Alias de la cuenta</label>
+                                <label class="form-label fw-bold">Alias de la cuenta</label>
                                 <input type="text" name="alias_sospechoso" class="form-control" placeholder="Ej: pedro.mp">
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label fw-semibold">Teléfono del estafador</label>
+                                <label class="form-label fw-bold">Teléfono del estafador</label>
                                 <input type="text" name="telefono_sospechoso" class="form-control" placeholder="Ej: 11 2345 6789">
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label fw-semibold">Página Web o Enlace Falso / Red Social</label>
+                                <label class="form-label fw-bold">Página Web o Enlace Falso</label>
                                 <input type="text" name="url_sitio_falso" class="form-control" placeholder="Ej: http://banco-falso.com">
                             </div>
 
                             <!-- SECCIÓN 4: VERDE -->
                             <div class="col-12">
-                                <div class="section-header-green">
-                                    <h5><i class="fa-solid fa-paperclip me-2"></i>4. Comprobantes y Fotos de Prueba (Preservación de Evidencia)</h5>
-                                    <small class="text-muted d-block">Adjunte capturas de chats, comprobantes de transferencias u otras evidencias digitales.</small>
+                                <div class="section-header-verde">
+                                    <h5><i class="fa-solid fa-paperclip me-2"></i>4. Comprobantes y Fotos de Prueba (Evidencia Digital)</h5>
+                                    <small class="text-success fw-semibold d-block">Adjunte capturas de chats, comprobantes de transferencias u otras evidencias.</small>
                                 </div>
                             </div>
 
                             <div class="col-12">
-                                <label class="form-label fw-semibold">Adjuntar Capturas / Comprobantes *</label>
+                                <label class="form-label fw-bold">Adjuntar Capturas / Comprobantes *</label>
                                 <input type="file" name="archivos" class="form-control" multiple required>
                                 
-                                <!-- EXPLICACIÓN TÉCNICO-JURÍDICA AMPLIADA Y RIGUROSA -->
-                                <div class="alert alert-light border mt-3 p-3 text-secondary small">
+                                <!-- EXPLICACIÓN TÉCNICO-JURÍDICA SOBRE LA EVIDENCIA DIGITAL -->
+                                <div class="alert alert-light border border-secondary mt-3 p-3 text-secondary small rounded-3">
                                     <p class="mb-2 fw-bold text-dark"><i class="fa-solid fa-shield-halved text-primary me-1"></i> Tratamiento Técnico-Policial de la Evidencia Digital:</p>
                                     <ul class="mb-0 ps-3">
-                                        <li><strong>Integridad (Hash SHA-256):</strong> A cada archivo recibido se le calcula una huella criptográfica SHA-256 única para verificar que no sufra alteraciones tras su recepción.</li>
-                                        <li><strong>Cadena de Custodia Integral:</strong> El cálculo del hash no constituye por sí solo la cadena de custodia. Para garantizar el valor probatorio, el sistema aplica un ciclo de gestión que contempla:
+                                        <li><strong>Integridad (Hash SHA-256):</strong> A cada archivo recibido se le calcula una huella criptográfica SHA-256 única para verificar su integridad y asegurar que no sufra modificaciones tras su recepción.</li>
+                                        <li><strong>Cadena de Custodia Integral:</strong> El cálculo del hash no constituye por sí solo la cadena de custodia. Para garantizar el valor probatorio, el sistema aplica un ciclo de gestión procedural e informático que contempla:
                                             <ul>
-                                                <li><strong>Autenticación:</strong> Verificación de la identidad del remitente mediante validación de usuario y metadatos.</li>
-                                                <li><strong>Autorización:</strong> Control estricto de roles de acceso restringido para personal policial auditado.</li>
-                                                <li><strong>Cifrado:</strong> Cifrado de archivos en reposito y durante el tránsito (HTTPS / TLS).</li>
-                                                <li><strong>Auditoría:</strong> Registro inalterable (Logs) de cada consulta, acceso o descarga realizada por el operador policial.</li>
-                                                <li><strong>Conservación y Transferencia:</strong> Almacenamiento seguro e inalterable hasta su remisión formal a la autoridad judicial interviniente.</li>
+                                                <li><strong>Autenticación:</strong> Verificación de la identidad del remitente u operador mediante validación de usuario y metadatos.</li>
+                                                <li><strong>Autorización:</strong> Control estricto de accesos basado en roles para personal policial auditado.</li>
+                                                <li><strong>Cifrado:</strong> Cifrado de archivos en tránsito (HTTPS / TLS) y en reposo para evitar accesos indebidos.</li>
+                                                <li><strong>Auditoría:</strong> Registro inalterable y trazable (logs) de cada consulta, acceso o descarga realizada sobre la evidencia.</li>
+                                                <li><strong>Conservación y Transferencia:</strong> Almacenamiento seguro e inalterable hasta su remisión formal a la fiscalía u organismo judicial interviniente.</li>
                                             </ul>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
 
-                            <!-- BOTÓN DE ENVIAR ESTILO CAPTURA -->
+                            <!-- BOTÓN DE ENVIAR ROJO LLAMATIVO -->
                             <div class="col-12 mt-4 text-end">
                                 <button type="submit" class="btn btn-custom-submit">
-                                    <i class="fa-solid fa-paper-plane me-2"></i>Enviar Reporte Digital
+                                    <i class="fa-solid fa-paper-plane me-2"></i>Enviar Denuncia Digital
                                 </button>
                             </div>
                         </div>
@@ -306,7 +338,7 @@
             <div class="tab-pane fade" id="tab-auditoria" role="tabpanel">
                 <div class="card card-custom p-4">
                     <h4 class="text-primary fw-bold mb-3"><i class="fa-solid fa-user-gear me-2"></i>Panel de Auditoría Técnico-Policial</h4>
-                    <p class="text-muted">Espacio restringido para oficiales de la Policía de Entre Ríos. Permite auditar metadatos, verificar hashes criptográficos y habilitar la alerta preventiva de IoCs.</p>
+                    <p class="text-muted">Espacio restringido para personal de la Policía de Entre Ríos. Permite auditar metadatos, verificar hashes criptográficos y habilitar la alerta preventiva de IoCs.</p>
                     <div class="alert alert-primary">
                         <i class="fa-solid fa-circle-info me-2"></i> Los Reportes Digitales procesados ingresan con estado <strong>PENDIENTE_VERIFICACION</strong>. Una vez que el personal especialista valida los Hashes SHA-256 de las pruebas, los identificadores ingresan a la base de alerta comunitaria.
                     </div>
