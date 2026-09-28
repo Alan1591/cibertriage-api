@@ -1,6 +1,7 @@
 import os
 from fastapi import FastAPI, HTTPException, status
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from passlib.context import CryptContext
 
@@ -8,6 +9,11 @@ app = FastAPI()
 
 # Directorio base absoluto donde se ubica main.py
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Montar carpeta de archivos estáticos (CSS, JS, imágenes) si existe
+static_dir = os.path.join(BASE_DIR, "static")
+if os.path.exists(static_dir):
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 # Configuración del hash de contraseñas (Bcrypt)
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -28,18 +34,17 @@ class LoginSchema(BaseModel):
     password: str
 
 # -------------------------------------------------------------------
-# Ruta para servir el frontend (index.html) en la raíz '/'
+# Ruta para servir el frontend (index.html dentro de 'templates')
 # -------------------------------------------------------------------
 @app.get("/", response_class=FileResponse)
 async def read_index():
-    index_path = os.path.join(BASE_DIR, "index.html")
+    # Se busca index.html dentro de la carpeta 'templates'
+    index_path = os.path.join(BASE_DIR, "templates", "index.html")
     
     if not os.path.exists(index_path):
-        # Muestra qué archivos sí están en el directorio para facilitar la depuración
-        archivos_presentes = os.listdir(BASE_DIR)
         raise HTTPException(
             status_code=404,
-            detail=f"Archivo index.html no encontrado en '{index_path}'. Archivos presentes: {archivos_presentes}"
+            detail=f"Archivo index.html no encontrado en la ruta: {index_path}"
         )
     return FileResponse(index_path)
 
