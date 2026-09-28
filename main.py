@@ -1,6 +1,6 @@
 import os
 import hashlib
-from typing import Optional
+from typing import Optional, List
 from fastapi import FastAPI, HTTPException, status, Form, UploadFile, File
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
@@ -109,19 +109,24 @@ async def recibir_reporte(
     descripcion: Optional[str] = Form(None),
     monto: Optional[str] = Form(None),
     cbu_alias: Optional[str] = Form(None),
-    archivo: Optional[UploadFile] = File(None)
+    archivo: Optional[List[UploadFile]] = File(None)
 ):
-    # Calcular hash de la evidencia o del contenido del formulario
+    hashes = []
+
+    # Procesa la lista si el usuario subió uno o varios archivos
     if archivo:
-        contenido = await archivo.read()
-        sha256_hash = hashlib.sha256(contenido).hexdigest()
-    else:
-        # Si no adjuntó archivo, se genera un hash íntegro sobre la descripción
-        data_string = f"{nombre}-{dni}-{descripcion}"
-        sha256_hash = hashlib.sha256(data_string.encode('utf-8')).hexdigest()
+        for f in archivo:
+            if f.filename:
+                contenido = await f.read()
+                hashes.append(hashlib.sha256(contenido).hexdigest())
+
+    # Si no se adjuntó ningún archivo (tentativa sin pruebas), genera hash del relato
+    if not hashes:
+        data_string = f"{nombre}-{dni}-{tipologia}-{descripcion}"
+        hashes.append(hashlib.sha256(data_string.encode('utf-8')).hexdigest())
 
     return {
         "status": "ok",
         "message": "Pre-denuncia registrada con éxito.",
-        "hash": sha256_hash
+        "hash": hashes[0] if len(hashes) == 1 else hashes
     }
