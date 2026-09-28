@@ -1,5 +1,6 @@
 import os
 import hashlib
+from datetime import datetime
 from typing import Optional, List
 from fastapi import FastAPI, HTTPException, status, Form, UploadFile, File
 from fastapi.responses import FileResponse
@@ -9,17 +10,14 @@ from passlib.context import CryptContext
 
 app = FastAPI()
 
-# Directorio base absoluto
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Montar carpeta de archivos estáticos si existe
 static_dir = os.path.join(BASE_DIR, "static")
 if os.path.exists(static_dir):
     app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-# Base de datos simulada
 POLICE_USERS_DB = {
     "AlanYfran": {
         "legajo": "30689",
@@ -37,13 +35,14 @@ POLICE_USERS_DB = {
     }
 }
 
+# Base de datos simulada en memoria para reportes
+REPORTES_DB = []
+ticket_counter = 892
+
 class LoginSchema(BaseModel):
     usuario: str
     password: str
 
-# -------------------------------------------------------------------
-# Ruta para servir el frontend (index.html)
-# -------------------------------------------------------------------
 @app.get("/", response_class=FileResponse)
 async def read_index():
     index_path = os.path.join(BASE_DIR, "templates", "index.html")
@@ -57,9 +56,6 @@ async def read_index():
         )
     return FileResponse(index_path)
 
-# -------------------------------------------------------------------
-# Endpoint de autenticación API
-# -------------------------------------------------------------------
 @app.post("/api/login")
 async def login_policial(credentials: LoginSchema):
     user_key = next((k for k in POLICE_USERS_DB if k.lower() == credentials.usuario.strip().lower()), None)
@@ -96,7 +92,7 @@ async def login_policial(credentials: LoginSchema):
     }
 
 # -------------------------------------------------------------------
-# Endpoint para recibir Pre-Denuncias Digitales y generar Hash SHA-256
+# Guardar Pre-Denuncia y generar Hash SHA-256
 # -------------------------------------------------------------------
 @app.post("/api/reporte-digital")
 async def recibir_reporte(
@@ -111,22 +107,46 @@ async def recibir_reporte(
     cbu_alias: Optional[str] = Form(None),
     archivo: Optional[List[UploadFile]] = File(None)
 ):
+    global ticket_counter
     hashes = []
 
-    # Procesa la lista si el usuario subió uno o varios archivos
     if archivo:
         for f in archivo:
             if f.filename:
                 contenido = await f.read()
                 hashes.append(hashlib.sha256(contenido).hexdigest())
 
-    # Si no se adjuntó ningún archivo (tentativa sin pruebas), genera hash del relato
     if not hashes:
         data_string = f"{nombre}-{dni}-{tipologia}-{descripcion}"
         hashes.append(hashlib.sha256(data_string.encode('utf-8')).hexdigest())
 
+    # Formatear el Ticket y guardar en memoria
+    ticket_id = f"#TK-2026-{ticket_counter:04d}"
+    ticket_counter += 1
+    
+    nuevo_reporte = {
+        "ticket": ticket_id,
+        "fecha": datetime.now().strftime("%d/%m/%Y"),
+        "nombre": nombre or "Anónimo",
+        "dni": dni or "N/A",
+        "tipologia": tipologia or "Sin clasificar",
+        "ioc": cbu_alias or telefono or "Sin datos",
+        "hash": hashes[0] if len(hashes) == 1 else hashes[0],
+        "descripcion": descripcion or ""
+    }
+    
+    REPORTES_DB.append(nuevo_reporte)
+
     return {
         "status": "ok",
         "message": "Pre-denuncia registrada con éxito.",
-        "hash": hashes[0] if len(hashes) == 1 else hashes
+        "ticket": ticket_id,
+        "hash": nuevo_reporte["hash"]
     }
+
+# -------------------------------------------------------------------
+# Endpoint para listar Pre-Denuncias registradas en el Panel
+# -------------------------------------------------------------------
+@app.get("/api/reportes")
+async def obtener_reportes():
+    return {"status": "ok", "reportes": REPORTES_DB}
