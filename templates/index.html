@@ -577,6 +577,7 @@
         }
 
         // -------------------------------------------------------------------
+     // -------------------------------------------------------------------
         // 3. Inicio de Sesión Policial e integración con cargarReportes()
         // -------------------------------------------------------------------
         async function loginPolicial(e) {
@@ -595,12 +596,29 @@
                 const data = await response.json();
 
                 if (response.ok && data.status === "success") {
-                    // Ocultar formulario de login / mostrar panel
-                    const loginModal = document.getElementById('modalLogin');
-                    if (loginModal) {
-                        const modalInstance = bootstrap.Modal.getInstance(loginModal);
-                        if (modalInstance) modalInstance.hide();
+                    // Oculta el contenedor de login o cierra el modal
+                    const modalEl = document.getElementById('modalLogin');
+                    if (modalEl) {
+                        const modalInstance = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                        modalInstance.hide();
                     }
+
+                    // Si utilizas conmutación de pestañas/secciones
+                    const panelSection = document.getElementById('panel-auditoria');
+                    if (panelSection) {
+                        panelSection.style.display = 'block';
+                    }
+
+                    // Carga dinámicamente las pre-denuncias desde la API
+                    await cargarReportes();
+
+                } else {
+                    alert(data.detail || "Credenciales de acceso no válidas");
+                }
+            } catch (err) {
+                console.error("Error en la autenticación policial:", err);
+            }
+        }
 
                     // AQUÍ SE LLAMA A LA FUNCIÓN PARA ACTUALIZAR LA TABLA LUEGO DEL LOGIN EXITOSO
                     await cargarReportes();
