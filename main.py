@@ -1,7 +1,6 @@
 import os
 from fastapi import FastAPI, HTTPException, status
 from fastapi.responses import FileResponse
-from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from passlib.context import CryptContext
 
@@ -30,7 +29,6 @@ class LoginSchema(BaseModel):
 # -------------------------------------------------------------------
 @app.get("/", response_class=FileResponse)
 async def read_index():
-    # Asume que index.html se encuentra en la misma carpeta que main.py
     index_path = "index.html"
     if not os.path.exists(index_path):
         raise HTTPException(
