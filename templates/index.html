@@ -4,156 +4,208 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CiberTriage - Plataforma Policial de Reportes Digitales</title>
-    <!-- Bootstrap 5 CSS -->
+    <!-- Bootstrap 5 CSS & FontAwesome -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-blue: #0f172a;
+            --accent-blue: #2563eb;
+            --bg-light: #f8fafc;
+        }
+        body {
+            background-color: var(--bg-light);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
         .hero-header {
-            background-color: #0f172a;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: #ffffff;
-            padding: 1.5rem 0;
+            padding: 1.8rem 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .nav-pills .nav-link {
+            color: #475569;
+            font-weight: 600;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
         .nav-pills .nav-link.active {
-            background-color: #1e40af;
+            background-color: var(--accent-blue) !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
         }
         .card-custom {
             border: none;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .form-section-title {
+            color: #1e293b;
+            font-weight: 700;
+            font-size: 0.95rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .btn-custom-submit {
+            background-color: #10b981;
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 2rem;
             border-radius: 8px;
+            border: none;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+        }
+        .btn-custom-submit:hover {
+            background-color: #059669;
+            color: white;
         }
     </style>
 </head>
-<body class="bg-light">
+<body>
 
-    <!-- Encabezado Principal -->
+    <!-- Header Principal -->
     <header class="hero-header mb-4">
         <div class="container d-flex justify-content-between align-items-center">
             <div>
-                <h3 class="fw-bold mb-0">Sistema Unificado de Gestión de Ciberdelitos</h3>
-                <small class="text-light-50">PLATAFORMA DIGITAL DE RECEPCIÓN, AUDITORÍA TÉCNICO-POLICIAL Y PREVENCIÓN</small>
+                <h2 class="fw-bold mb-0 text-white"><i class="fa-solid fa-shield-halved text-primary me-2"></i>Sistema Unificado de Gestión de Ciberdelitos</h2>
+                <span class="badge bg-primary text-wrap mt-1">PLATAFORMA DIGITAL DE RECEPCIÓN, AUDITORÍA TÉCNICO-POLICIAL Y PREVENCIÓN</span>
             </div>
             <div>
-                <a href="#" class="btn btn-success btn-sm"><i class="bi bi-phone"></i> Descargar App (APK)</a>
+                <a href="#" class="btn btn-outline-light btn-sm rounded-pill"><i class="fa-solid fa-mobile-screen-button me-1"></i> Descargar App (APK)</a>
             </div>
         </div>
     </header>
 
-    <div class="container">
-        <!-- Menú de Navegación (3 Ventanas - Módulo Judicial Eliminado) -->
-        <ul class="nav nav-pills nav-fill mb-4 bg-white p-2 rounded shadow-sm" id="pills-tab" role="tablist">
+    <div class="container pb-5">
+        <!-- Navegación por Ventanas (3 Módulos - Sin Módulo Judicial) -->
+        <ul class="nav nav-pills nav-fill mb-4 bg-white p-2 rounded-3 shadow-sm" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="tab-consultas-tab" data-bs-toggle="pill" data-bs-target="#tab-consultas" type="button" role="tab">
-                    <i class="bi bi-search"></i> Ventana 1: Consultas y Alerta
+                    <i class="fa-solid fa-magnifying-glass me-2"></i>Ventana 1: Consultas y Alerta
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="tab-reporte-tab" data-bs-toggle="pill" data-bs-target="#tab-reporte" type="button" role="tab">
-                    <i class="bi bi-file-earmark-text"></i> Ventana 2: Reporte Digital
+                    <i class="fa-solid fa-file-pen me-2"></i>Ventana 2: Reporte Digital
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="tab-auditoria-tab" data-bs-toggle="pill" data-bs-target="#tab-auditoria" type="button" role="tab">
-                    <i class="bi bi-shield-check"></i> Ventana 3: Auditoría Policial
+                    <i class="fa-solid fa-user-shield me-2"></i>Ventana 3: Auditoría Policial
                 </button>
             </li>
         </ul>
 
-        <!-- Contenido de las Ventanas -->
+        <!-- Contenido -->
         <div class="tab-content" id="pills-tabContent">
             
             <!-- VENTANA 1: CONSULTA DE IOC -->
             <div class="tab-pane fade show active" id="tab-consultas" role="tabpanel">
                 <div class="card card-custom p-4 mb-4">
-                    <h4 class="text-primary"><i class="bi bi-shield-lock"></i> Consulta Rápida de Indicadores</h4>
-                    <p class="text-muted">Verifique CBU, CVU, Alias, Teléfono o Enlace sospechoso en la base unificada policial.</p>
+                    <h4 class="text-primary fw-bold"><i class="fa-solid fa-shield-cat me-2"></i>Consulta Rápida de Indicadores de Riesgo (IoC)</h4>
+                    <p class="text-muted">Verifique CBU, CVU, Alias, Teléfono o Enlace sospechoso en la base preventiva unificada.</p>
                     <form id="form-consulta" onsubmit="consultarIoC(event)">
-                        <div class="row g-2">
+                        <div class="row g-3">
                             <div class="col-md-3">
-                                <select class="form-select" id="search-tipo" required>
-                                    <option value="CBU_CVU">CBU / CVU</option>
-                                    <option value="ALIAS">Alias</option>
-                                    <option value="TELEFONO">Teléfono</option>
-                                    <option value="URL">Enlace URL</option>
+                                <select class="form-select form-select-lg" id="search-tipo" required>
+                                    <option value="CBU_CVU">CBU / CVU (22 dígitos)</option>
+                                    <option value="ALIAS">Alias MP / Bancario</option>
+                                    <option value="TELEFONO">Teléfono / WhatsApp</option>
+                                    <option value="URL">Enlace URL Falso</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" id="search-valor" placeholder="Ingrese CBU/CVU, Alias, Teléfono o URL dudosa..." required>
+                                <input type="text" class="form-control form-control-lg" id="search-valor" placeholder="Ingrese CBU/CVU, Alias, Teléfono o URL dudosa..." required>
                             </div>
                             <div class="col-md-3">
-                                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-search"></i> Verificar Alerta</button>
+                                <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold"><i class="fa-solid fa-magnifying-glass me-2"></i>Verificar Alerta</button>
                             </div>
                         </div>
                     </form>
-                    <div id="resultado-consulta" class="mt-3"></div>
+                    <div id="resultado-consulta" class="mt-4"></div>
                 </div>
             </div>
 
             <!-- VENTANA 2: REPORTE DIGITAL -->
             <div class="tab-pane fade" id="tab-reporte" role="tabpanel">
                 <div class="card card-custom p-4">
-                    <h4 class="text-primary mb-3"><i class="bi bi-file-earmark-plus"></i> Registrar Nuevo Reporte Digital</h4>
+                    <h4 class="text-primary fw-bold mb-3"><i class="fa-solid fa-file-circle-plus me-2"></i>Registrar Nuevo Reporte Digital</h4>
                     <form id="form-reporte" action="/api/reporte-digital" method="POST" enctype="multipart/form-data">
                         <div class="row g-3">
-                            <h6 class="fw-bold text-secondary border-bottom pb-2">1. Datos del Ciudadano</h6>
+                            
+                            <div class="form-section-title"><i class="fa-solid fa-id-card me-2"></i>1. Datos de Identificación del Ciudadano</div>
                             <div class="col-md-4">
-                                <label class="form-label">CUIL / DNI</label>
-                                <input type="text" name="cuil_dni" class="form-control" required>
+                                <label class="form-label fw-semibold">CUIL / DNI</label>
+                                <input type="text" name="cuil_dni" class="form-control" placeholder="Ej: 20351234567" required>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label">Nombre y Apellido</label>
-                                <input type="text" name="nombre_apellido" class="form-control" required>
+                                <label class="form-label fw-semibold">Nombre y Apellido Completo</label>
+                                <input type="text" name="nombre_apellido" class="form-control" placeholder="Nombre completo" required>
                             </div>
                             <div class="col-md-4">
-                                <label class="form-label">Correo Electrónico</label>
-                                <input type="email" name="email" class="form-control" required>
+                                <label class="form-label fw-semibold">Correo Electrónico de Contacto</label>
+                                <input type="email" name="email" class="form-control" placeholder="correo@ejemplo.com" required>
                             </div>
 
-                            <h6 class="fw-bold text-secondary border-bottom pb-2 mt-4">2. Detalle del Hecho y Delito</h6>
+                            <div class="form-section-title"><i class="fa-solid fa-triangle-exclamation me-2"></i>2. Detalle del Hecho y Clasificación del Delito</div>
                             <div class="col-md-6">
-                                <label class="form-label">Tipología del Delito</label>
+                                <label class="form-label fw-semibold">Tipología Amplia del Ciberdelito</label>
                                 <select name="tipologia_delito" class="form-select" required>
-                                    <option value="Phishing / Suplantación">Phishing / Suplantación de Identidad</option>
-                                    <option value="Estafa en Compraventa">Estafa en Compra/Venta Online</option>
-                                    <option value="Acceso No Autorizado">Acceso no autorizado a cuentas (Hackeo)</option>
-                                    <option value="Extorsión Digital">Extorsión / Ransomware</option>
+                                    <option value="" disabled selected>-- Seleccione la modalidad --</option>
+                                    <option value="Phishing / Suplantación de Identidad (Bancos/Anses/Rentas)">Phishing / Suplantación de Identidad (Bancos / Entidades)</option>
+                                    <option value="Estafa en Compraventa Marketplace / Redes Sociales">Estafa en Compraventa Online (Facebook Marketplace / Instagram)</option>
+                                    <option value="Secuestro / Hackeo de Cuenta de WhatsApp">Secuestro / Hackeo de Cuenta de WhatsApp</option>
+                                    <option value="Acceso No Autorizado a Homebanking / Billetera Virtual">Acceso No Autorizado a Homebanking / Billetera Virtual</option>
+                                    <option value="Toma de Crédito Fraudulento Pre-aprobado">Toma de Crédito Fraudulento Pre-aprobado</option>
+                                    <option value="Fraude con Tarjeta de Crédito / Débito (Clonación)">Fraude con Tarjeta de Crédito / Débito (Clonación / Debin)</option>
+                                    <option value="Extorsión Digital / Sexshaming / Ransomware">Extorsión Digital / Ransomware / Secuestro de Datos</option>
+                                    <option value="Falsa Promesa de Empleo / Inversiones / Criptoactivos">Falsa Promesa de Empleo / Estafa con Criptomonedas / Piramidal</option>
+                                    <option value="Venta de Productos Inexistentes / Pasajes Falsos">Venta de Productos Inexistentes / Pasajes o Indumentaria Falsa</option>
+                                    <option value="Otras Modalidades Informáticas">Otras Modalidades Informáticas</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Monto Estimado del Perjuicio ($ ARS)</label>
-                                <input type="number" step="0.01" name="monto_estimado_ars" class="form-control" value="0.0">
+                                <label class="form-label fw-semibold">Monto Estimado del Perjuicio ($ ARS)</label>
+                                <input type="number" step="0.01" name="monto_estimado_ars" class="form-control" placeholder="0.00">
                             </div>
                             <div class="col-12">
-                                <label class="form-label">Descripción Detallada del Hecho</label>
-                                <textarea name="descripcion_hecho" class="form-control" rows="3" required></textarea>
+                                <label class="form-label fw-semibold">Descripción Detallada del Incidente</label>
+                                <textarea name="descripcion_hecho" class="form-control" rows="4" placeholder="Relate de forma cronológica cómo ocurrió el contacto, qué instrucciones le dieron y qué acciones realizó..." required></textarea>
                             </div>
 
-                            <h6 class="fw-bold text-secondary border-bottom pb-2 mt-4">3. Identificadores del Sospechoso (IoCs)</h6>
+                            <div class="form-section-title"><i class="fa-solid fa-user-ninja me-2"></i>3. Identificadores del Sospechoso / Involucrado (IoCs)</div>
                             <div class="col-md-3">
-                                <label class="form-label">CBU / CVU Destino</label>
+                                <label class="form-label fw-semibold">CBU / CVU Destino</label>
                                 <input type="text" name="cbu_cvu_sospechoso" class="form-control" placeholder="22 dígitos">
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label">Alias Sospechoso</label>
+                                <label class="form-label fw-semibold">Alias Sospechoso</label>
                                 <input type="text" name="alias_sospechoso" class="form-control" placeholder="Ej: mi.alias.mp">
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label">Teléfono WhatsApp/Llamadas</label>
+                                <label class="form-label fw-semibold">Teléfono WhatsApp / Llamadas</label>
                                 <input type="text" name="telefono_sospechoso" class="form-control" placeholder="Ej: 3434000000">
                             </div>
                             <div class="col-md-3">
-                                <label class="form-label">Enlace URL Falso</label>
+                                <label class="form-label fw-semibold">Enlace URL / Perfil Falso</label>
                                 <input type="text" name="url_sitio_falso" class="form-control" placeholder="https://...">
                             </div>
 
-                            <h6 class="fw-bold text-secondary border-bottom pb-2 mt-4">4. Evidencia Digital (Preservación Hash SHA-256)</h6>
+                            <div class="form-section-title"><i class="fa-solid fa-file-shield me-2"></i>4. Evidencia Digital y Preservación de Prueba (ISO/IEC 27037)</div>
                             <div class="col-12">
-                                <label class="form-label">Adjuntar comprobantes, capturas de pantalla o correos (.png, .jpg, .pdf)</label>
+                                <label class="form-label fw-semibold">Adjuntar comprobantes de transferencia, capturas de chat o correos (.png, .jpg, .pdf)</label>
                                 <input type="file" name="archivos" class="form-control" multiple required>
-                                <small class="text-muted">Los archivos adjuntos serán procesados mediante Sellado de Integridad Criptográfica (ISO/IEC 27037).</small>
+                                <div class="form-text mt-2 text-primary">
+                                    <i class="fa-solid fa-lock me-1"></i> Cada archivo subido recibirá automáticamente un **sello criptográfico de integridad SHA-256** mediante lectura por bloques.
+                                </div>
                             </div>
 
                             <div class="col-12 mt-4 text-end">
-                                <button type="submit" class="btn btn-success px-5"><i class="bi bi-send"></i> Registrar Reporte Digital</button>
+                                <button type="submit" class="btn btn-custom-submit btn-lg"><i class="fa-solid fa-paper-plane me-2"></i>Registrar Reporte Digital</button>
                             </div>
                         </div>
                     </form>
@@ -163,10 +215,10 @@
             <!-- VENTANA 3: AUDITORÍA POLICIAL -->
             <div class="tab-pane fade" id="tab-auditoria" role="tabpanel">
                 <div class="card card-custom p-4">
-                    <h4 class="text-primary mb-3"><i class="bi bi-shield-check"></i> Panel de Auditoría Técnico-Policial</h4>
-                    <p class="text-muted">Vista exclusiva para personal especializado. Permite auditar metadatos, verificar la integridad de la prueba digital y activar los indicadores de riesgo.</p>
-                    <div class="alert alert-info">
-                        <i class="bi bi-info-circle"></i> Los reportes ingresados quedan en estado <strong>PENDIENTE_VERIFICACION</strong> hasta que el oficial audite los Hashes SHA-256 de la evidencia y active la alerta comunitaria.
+                    <h4 class="text-primary fw-bold mb-3"><i class="fa-solid fa-user-gear me-2"></i>Panel de Auditoría Técnico-Policial</h4>
+                    <p class="text-muted">Espacio restringido para oficiales de la Policía de Entre Ríos. Permite auditar metadatos, verificar hashes criptográficos y habilitar la alerta preventiva de IoCs.</p>
+                    <div class="alert alert-primary">
+                        <i class="fa-solid fa-circle-info me-2"></i> Los Reportes Digitales procesados ingresan con estado <strong>PENDIENTE_VERIFICACION</strong>. Una vez que el personal especialista valida los Hashes SHA-256 de las pruebas, los identificadores ingresan a la base de alerta comunitaria.
                     </div>
                 </div>
             </div>
@@ -174,7 +226,7 @@
         </div>
     </div>
 
-    <!-- Bootstrap 5 JS -->
+    <!-- Bootstrap 5 JS & Script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         async function consultarIoC(e) {
@@ -183,7 +235,7 @@
             const valor = document.getElementById('search-valor').value;
             const divResultado = document.getElementById('resultado-consulta');
 
-            divResultado.innerHTML = `<div class="spinner-border text-primary" role="status"></div> Consultando...`;
+            divResultado.innerHTML = `<div class="d-flex align-items-center text-primary"><div class="spinner-border me-2" role="status"></div> Verificando huella criptográfica en base unificada...</div>`;
 
             try {
                 const response = await fetch('/api/ioc/consultar', {
@@ -194,12 +246,20 @@
                 const data = await response.json();
                 
                 if (data.registra_sospecha) {
-                    divResultado.innerHTML = `<div class="alert alert-danger fw-bold"><i class="bi bi-exclamation-triangle-fill"></i> ${data.mensaje}</div>`;
+                    divResultado.innerHTML = `
+                        <div class="alert alert-danger p-3 rounded-3 shadow-sm">
+                            <h5 class="fw-bold mb-1"><i class="fa-solid fa-triangle-exclamation me-2"></i>¡ADVERTENCIA DE RIESGO CONFIRMADA!</h5>
+                            <p class="mb-0">${data.mensaje}</p>
+                        </div>`;
                 } else {
-                    divResultado.innerHTML = `<div class="alert alert-success fw-bold"><i class="bi bi-check-circle-fill"></i> ${data.mensaje}</div>`;
+                    divResultado.innerHTML = `
+                        <div class="alert alert-success p-3 rounded-3 shadow-sm">
+                            <h5 class="fw-bold mb-1"><i class="fa-solid fa-circle-check me-2"></i>SIN REGISTROS DE SOSPECHA</h5>
+                            <p class="mb-0">${data.mensaje}</p>
+                        </div>`;
                 }
             } catch (err) {
-                divResultado.innerHTML = `<div class="alert alert-warning">Error al consultar el servidor.</div>`;
+                divResultado.innerHTML = `<div class="alert alert-warning"><i class="fa-solid fa-circle-exclamation me-2"></i>Error al conectar con el servidor.</div>`;
             }
         }
     </script>
