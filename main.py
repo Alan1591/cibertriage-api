@@ -1,4 +1,7 @@
+import os
 from fastapi import FastAPI, HTTPException, status
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from passlib.context import CryptContext
 
@@ -22,6 +25,23 @@ class LoginSchema(BaseModel):
     usuario: str
     password: str
 
+# -------------------------------------------------------------------
+# Ruta para servir el frontend (index.html) en la raíz '/'
+# -------------------------------------------------------------------
+@app.get("/", response_class=FileResponse)
+async def read_index():
+    # Asume que index.html se encuentra en la misma carpeta que main.py
+    index_path = "index.html"
+    if not os.path.exists(index_path):
+        raise HTTPException(
+            status_code=404,
+            detail="Archivo index.html no encontrado en el servidor"
+        )
+    return FileResponse(index_path)
+
+# -------------------------------------------------------------------
+# Endpoint de autenticación API
+# -------------------------------------------------------------------
 @app.post("/api/login")
 async def login_policial(credentials: LoginSchema):
     user = POLICE_USERS_DB.get(credentials.usuario)
