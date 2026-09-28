@@ -427,47 +427,136 @@
     </div>
 </div>
 
-<!-- Modal para Ver Detalle de la Pre-Denuncia -->
+<!-- 1. Modal para ver detalle -->
     <div class="modal fade" id="modalDetalleReporte" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header bg-dark text-white">
-            <h5 class="modal-title" id="modalDetalleTitle"><i class="fa-solid fa-file-contract me-2"></i>Detalle de Pre-Denuncia</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="row mb-3">
-              <div class="col-md-6"><strong>Ticket:</strong> <span id="det-ticket" class="text-danger fw-bold"></span></div>
-              <div class="col-md-6"><strong>Fecha:</strong> <span id="det-fecha"></span></div>
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title">Detalle del Reporte</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Ticket:</strong> <span id="det-ticket"></span></p>
+                    <p><strong>Fecha:</strong> <span id="det-fecha"></span></p>
+                    <p><strong>Tipología:</strong> <span id="det-tipologia"></span></p>
+                    <p><strong>IoC:</strong> <span id="det-ioc"></span></p>
+                    <p><strong>Hash Evidencia:</strong> <span id="det-hash"></span></p>
+                    <hr>
+                    <p><strong>Relato de los Hechos:</strong></p>
+                    <div id="det-relato" class="p-3 bg-light rounded text-dark font-monospace small"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
             </div>
-            <div class="row mb-3">
-              <div class="col-md-6"><strong>Tipología:</strong> <span id="det-tipologia"></span></div>
-              <div class="col-md-6"><strong>IoC Detectado:</strong> <span id="det-ioc" class="badge bg-warning text-dark"></span></div>
-            </div>
-            <div class="mb-3">
-              <strong>Hash SHA-256 de Evidencia (ISO/IEC 27037):</strong>
-              <div id="det-hash" class="p-2 bg-light border rounded font-monospace small text-break"></div>
-            </div>
-            <hr>
-            <div class="mb-3">
-              <h6 class="fw-bold text-primary"><i class="fa-solid fa-align-left me-2"></i>Relato de los Hechos:</h6>
-              <div id="det-relato" class="p-3 bg-light border rounded text-dark text-wrap" style="white-space: pre-line;">
-                <!-- Aquí se renderiza el texto del relato -->
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          </div>
         </div>
-      </div>
     </div>
 
-    <!-- Bootstrap 5 JS & Script -->
+    <!-- 2. Bootstrap Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script Unificado de CiberTriage -->
     <script>
-        // Variable global para almacenar los datos recibidos del backend
+        // Variable global única para almacenar los datos del backend
         let reportesCargados = [];
+
+        // Inicialización al cargar el DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            // Evita recargar página si existe un formulario de denuncia activo
+            const formDenuncia = document.querySelector('form:not(#form-login-policial)');
+            if (formDenuncia) {
+                formDenuncia.addEventListener('submit', (e) => {
+                    // Si tenés tu handler fetch personalizado para enviar el POST, se ejecuta sin recargar URL
+                });
+            }
+            cargarReportes();
+        });
+
+        // ===================================================
+        // 1. DIBUJAR TABLA Y OBTENER REPORTES
+        // ===================================================
+        async function cargarReportes() {
+            try {
+                const token = localStorage.getItem('jwt_token');
+                const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+                
+                const response = await fetch('/api/reportes', { headers });
+                if (!response.ok) return;
+
+                const data = await response.json();
+                const lista = Array.isArray(data) ? data : (data.reportes || []);
+                reportesCargados = lista;
+
+                const tbody = document.querySelector('#panel-triage-container table tbody') || document.querySelector('table tbody');
+                if (!tbody) return;
+
+                tbody.innerHTML = ''; 
+
+                lista.forEach((rep, index) => {
+                    const row = document.createElement('tr');
+                    const ticketId = rep.ticket || `#TK-${index}`;
+                    row.innerHTML = `
+                        <td class="fw-bold text-danger">${ticketId}</td>
+                        <td>${rep.fecha || 'N/A'}</td>
+                        <td>${rep.tipologia || 'Sin clasificar'}</td>
+                        <td><span class="badge bg-warning text-dark">${rep.ioc || 'N/A'}</span></td>
+                        <td class="small text-break font-monospace">${rep.hash || 'Sin hash'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-info text-white me-1" onclick="verDetalleDenuncia('${ticketId}')">
+                                <i class="fa-solid fa-eye"></i> Ver Detalle
+                            </button>
+                            <button class="btn btn-sm btn-success me-1"><i class="fa-solid fa-check"></i> Aprobar</button>
+                            <button class="btn btn-sm btn-danger"><i class="fa-solid fa-xmark"></i> Desestimar</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error("Error al cargar reportes:", error);
+            }
+        }
+
+        // ===================================================
+        // 2. MOSTRAR DETALLE EN MODAL
+        // ===================================================
+        function verDetalleDenuncia(identificador) {
+            let rep = null;
+
+            if (typeof identificador === 'number') {
+                rep = reportesCargados[identificador];
+            } else if (typeof identificador === 'string') {
+                rep = reportesCargados.find(r => r.ticket === identificador || r.ticket === identificador.trim());
+            }
+
+            if (!rep) {
+                rep = {
+                    ticket: identificador || 'N/A',
+                    fecha: 'N/A',
+                    tipologia: 'Sin datos',
+                    ioc: 'Sin datos',
+                    hash: 'Sin hash',
+                    relato: 'No se pudo recuperar el detalle.'
+                };
+            }
+
+            document.getElementById('det-ticket').innerText = rep.ticket || 'N/A';
+            document.getElementById('det-fecha').innerText = rep.fecha || 'N/A';
+            document.getElementById('det-tipologia').innerText = rep.tipologia || 'Sin clasificar';
+            document.getElementById('det-ioc').innerText = rep.ioc || 'Sin datos';
+            document.getElementById('det-hash').innerText = rep.hash || 'Sin hash';
+            document.getElementById('det-relato').innerText = rep.relato || rep.descripcion || rep.relato_hechos || 'Sin relato registrado.';
+
+            const modalEl = document.getElementById('modalDetalleReporte');
+            if (modalEl) {
+                const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                modal.show();
+            }
+        }
+
+        window.verDetalleReporte = verDetalleDenuncia;
 
         // ===================================================
         // 1. CONSULTAR IOC (Pestaña 1)
