@@ -277,7 +277,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         except ValueError as exc:
             raise HTTPException(422, str(exc))
         h = crypto.hash_ioc(pimienta, datos.tipo, norm)
-        cantidad = db.scalar(select(func.count(func.distinct(IoC.reporte_id))).where(IoC.hash_ioc == h)) or 0
+        # Solo cuentan los reportes revisados y aprobados por personal autorizado (el aprobador queda en la
+        # bitácora); un reporte pendiente o desestimado no activa el indicador. Volver el estado a
+        # "desestimado" (rectificación) lo da de baja de la consulta de inmediato.
+        cantidad = db.scalar(select(func.count(func.distinct(IoC.reporte_id)))
+                             .join(Reporte, Reporte.id == IoC.reporte_id)
+                             .where(IoC.hash_ioc == h, Reporte.estado == "aprobado")) or 0
         # Respuesta pública binaria: no revela cantidades, datos de reportes ni del denunciante.
         con_registro = cantidad > 0
         return {"tipo": datos.tipo, "con_registro": con_registro,

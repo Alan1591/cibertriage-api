@@ -54,12 +54,23 @@ def test_reporte_y_consulta_publica_sin_filtrar_datos(cliente):
     r = cliente.post("/api/reportes", data=datos(), files={"archivo": ("p.png", PNG, "image/png")})
     assert r.status_code == 201, r.text
     assert r.json()["evidencias"][0]["sha256"] == crypto.sha256_hex(PNG)
-    c = cliente.post("/api/consulta-ioc", json={"tipo": "ALIAS", "valor": "CUENTA.falsa.mp"})
+    consulta = {"tipo": "ALIAS", "valor": "CUENTA.falsa.mp"}
+    # pendiente de revisión: el indicador todavía NO está activo
+    assert cliente.post("/api/consulta-ioc", json=consulta).json()["con_registro"] is False
+    h = auth(cliente)
+    rid = cliente.get("/api/reportes", headers=h).json()[0]["id"]
+    cliente.patch(f"/api/reportes/{rid}/estado", json={"estado": "aprobado"}, headers=h)
+    c = cliente.post("/api/consulta-ioc", json=consulta)
     assert c.json()["con_registro"] is True and c.json()["resultado"] == "CON REGISTRO DE SOSPECHA"
     assert "coincidencias" not in c.json()  # la respuesta pública no revela cantidades
     assert "Ana" not in c.text and "20123456786" not in c.text
     sin = cliente.post("/api/consulta-ioc", json={"tipo": "ALIAS", "valor": "otro.alias.x"}).json()
     assert sin["con_registro"] is False and sin["resultado"] == "SIN REGISTROS"
+    # rectificación: al desestimar el reporte, el indicador se da de baja
+    cliente.patch(f"/api/reportes/{rid}/estado", json={"estado": "desestimado"}, headers=h)
+    assert cliente.post("/api/consulta-ioc", json=consulta).json()["con_registro"] is False
+    acciones = [a["accion"] for a in cliente.get("/api/auditoria", headers=h).json()["registros"]]
+    assert acciones.count("ESTADO_CAMBIADO") == 2
 
 
 def test_rechaza_archivo_disfrazado(cliente):
