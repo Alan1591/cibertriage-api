@@ -10,7 +10,10 @@
     hijos.flat().forEach((h) => e.append(h));
     return e;
   };
-  const fmt = (iso) => new Date(iso).toLocaleString('es-AR');
+  const fmt = (iso) => new Date(iso).toLocaleString('es-AR', {
+    timeZone: 'America/Argentina/Buenos_Aires', hour12: false,
+    day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit',
+  });
   const alerta = (cont, clase, texto) => {
     cont.replaceChildren(el('div', { className: `alert alert-${clase}`, textContent: texto }));
   };
