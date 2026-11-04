@@ -281,7 +281,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         # bitácora); un reporte pendiente o desestimado no activa el indicador. Volver el estado a
         # "desestimado" (rectificación) lo da de baja de la consulta de inmediato.
         cantidad = db.scalar(select(func.count(func.distinct(IoC.reporte_id)))
-                             .join(Reporte, Reporte.id == IoC.reporte_id)
+                             .select_from(IoC).join(Reporte, Reporte.id == IoC.reporte_id)
                              .where(IoC.hash_ioc == h, Reporte.estado == "aprobado")) or 0
         # Respuesta pública binaria: no revela cantidades, datos de reportes ni del denunciante.
         con_registro = cantidad > 0
