@@ -278,10 +278,13 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             raise HTTPException(422, str(exc))
         h = crypto.hash_ioc(pimienta, datos.tipo, norm)
         cantidad = db.scalar(select(func.count(func.distinct(IoC.reporte_id))).where(IoC.hash_ioc == h)) or 0
-        # Respuesta pública mínima: solo cantidad, sin datos de ningún reporte ni denunciante.
-        return {"tipo": datos.tipo, "coincidencias": cantidad,
-                "mensaje": ("Este indicador figura en %d reporte(s) recibido(s)." % cantidad) if cantidad
-                else "Sin coincidencias en los reportes recibidos. Esto no garantiza que sea seguro."}
+        # Respuesta pública binaria: no revela cantidades, datos de reportes ni del denunciante.
+        con_registro = cantidad > 0
+        return {"tipo": datos.tipo, "con_registro": con_registro,
+                "resultado": "CON REGISTRO DE SOSPECHA" if con_registro else "SIN REGISTROS",
+                "mensaje": ("El indicador consultado figura en reportes recibidos. Evite operar con él."
+                            if con_registro else
+                            "No figura en los reportes recibidos. Esto no garantiza que sea seguro.")}
 
     # ---------- personal autorizado ----------
     rol_ver = requiere("oficial_auditoria", "administrador")

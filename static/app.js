@@ -53,7 +53,8 @@
     });
     if (!r.ok) return alerta(cont, 'warning', await detalleError(r));
     const d = await r.json();
-    alerta(cont, d.coincidencias ? 'danger' : 'success', d.mensaje);
+    cont.replaceChildren(el('div', { className: `alert alert-${d.con_registro ? 'danger' : 'success'}` },
+      el('strong', { textContent: d.resultado }), ` — ${d.mensaje}`));
   });
 
   // ---------- Ventana 2: envío de reporte ----------

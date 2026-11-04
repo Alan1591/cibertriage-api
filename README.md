@@ -9,7 +9,7 @@ y consultar indicadores (CBU/CVU, alias, teléfono, URL) sin exponer datos de la
 | Reporte ciudadano con adjuntos (PDF/imágenes validados por contenido, máx. 10 MB) | Implementado |
 | SHA-256 de cada archivo al recibirlo; verificación al descargar | Implementado |
 | Cifrado AES-256-GCM de relato, datos personales, indicadores y archivos | Implementado |
-| Indicadores guardados como HMAC-SHA256; consulta pública devuelve solo cantidad | Implementado |
+| Indicadores guardados como HMAC-SHA256; consulta pública devuelve solo «con registro de sospecha» o «sin registros» | Implementado |
 | Login con bcrypt, JWT 15 min, refresh rotativo (8 h máx., 15 min inactividad), revocación, bloqueo tras 5 fallos | Implementado |
 | Roles (`oficial_auditoria`, `administrador`) y bitácora encadenada con verificación | Implementado |
 | Límite de solicitudes (en memoria, por IP) y cabeceras de seguridad | Implementado |

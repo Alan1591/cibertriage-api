@@ -55,9 +55,11 @@ def test_reporte_y_consulta_publica_sin_filtrar_datos(cliente):
     assert r.status_code == 201, r.text
     assert r.json()["evidencias"][0]["sha256"] == crypto.sha256_hex(PNG)
     c = cliente.post("/api/consulta-ioc", json={"tipo": "ALIAS", "valor": "CUENTA.falsa.mp"})
-    assert c.json()["coincidencias"] == 1
+    assert c.json()["con_registro"] is True and c.json()["resultado"] == "CON REGISTRO DE SOSPECHA"
+    assert "coincidencias" not in c.json()  # la respuesta pública no revela cantidades
     assert "Ana" not in c.text and "20123456786" not in c.text
-    assert cliente.post("/api/consulta-ioc", json={"tipo": "ALIAS", "valor": "otro.alias.x"}).json()["coincidencias"] == 0
+    sin = cliente.post("/api/consulta-ioc", json={"tipo": "ALIAS", "valor": "otro.alias.x"}).json()
+    assert sin["con_registro"] is False and sin["resultado"] == "SIN REGISTROS"
 
 
 def test_rechaza_archivo_disfrazado(cliente):
