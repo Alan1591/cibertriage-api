@@ -4,6 +4,19 @@
   const $ = (id) => document.getElementById(id);
   let sesion = null; // {access, refresh, nombre, rol}
 
+  // Modo app móvil (/app): solo ciudadanía -> Ventana 1 (consulta) y Ventana 2 (reporte).
+  // La Ventana 3 (auditoría) se oculta; igualmente la API exige credenciales para esos datos.
+  if (location.pathname === '/app') {
+    const ocultar = (e) => e && e.classList.add('d-none');
+    const tabAud = $('tab-auditoria-tab');
+    ocultar(tabAud && tabAud.closest('li'));
+    ocultar($('tab-auditoria'));
+    ocultar($('btn-app-movil'));
+  }
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  }
+
   const el = (tag, props = {}, ...hijos) => {
     const e = document.createElement(tag);
     Object.assign(e, props);

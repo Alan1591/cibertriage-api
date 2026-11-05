@@ -168,3 +168,11 @@ def test_bitacora_encadenada_integra_y_detecta_cambios(cliente):
     with crear_motor(cliente.app_.state.settings.database_url).begin() as cx:
         cx.execute(text("update auditoria set detalle='alterado' where id=1"))
     assert cliente.get("/api/auditoria", headers=h).json()["verificacion"]["integra"] is False
+
+
+def test_app_movil_y_pwa(cliente):
+    r = cliente.get("/app")
+    assert r.status_code == 200 and "tab-reporte" in r.text
+    assert cliente.get("/static/manifest.webmanifest").json()["start_url"] == "/app"
+    sw = cliente.get("/sw.js")
+    assert sw.status_code == 200 and "javascript" in sw.headers["content-type"]

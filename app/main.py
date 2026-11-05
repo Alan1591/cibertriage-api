@@ -402,6 +402,15 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     def inicio():
         return FileResponse(BASE / "templates" / "index.html")
 
+    @app.get("/app", response_class=HTMLResponse)
+    def inicio_movil():
+        # Misma interfaz, sin la Ventana 3 (auditoría): es la entrada de la app móvil ciudadana.
+        return FileResponse(BASE / "templates" / "index.html")
+
+    @app.get("/sw.js")
+    def service_worker():
+        return FileResponse(BASE / "static" / "sw.js", media_type="application/javascript")
+
     app.mount("/static", StaticFiles(directory=BASE / "static"), name="static")
 
     # ---------- usuario administrador inicial ----------

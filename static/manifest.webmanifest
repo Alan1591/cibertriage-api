@@ -1,0 +1,15 @@
+{
+  "name": "Reporte Digital",
+  "short_name": "Reporte Digital",
+  "description": "Consulta de indicadores de riesgo y envío de reportes digitales (prototipo académico).",
+  "start_url": "/app",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "lang": "es-AR",
+  "icons": [
+    {"src": "/static/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "/static/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
