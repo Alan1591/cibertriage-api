@@ -1,7 +1,10 @@
 """Crea un usuario del personal autorizado.
 Uso:  python -m scripts.crear_usuario USUARIO "Nombre Apellido" oficial_auditoria|administrador
-La contraseña se pide por teclado (no queda en el historial de la terminal)."""
+La contraseña se pide por teclado (no queda en el historial de la terminal).
+Alternativa para terminales web donde no se puede escribir a ciegas: definir la variable CT_CLAVE
+en el mismo comando (queda visible en pantalla; cerrar la terminal al terminar)."""
 import getpass
+import os
 import sys
 
 from app.config import load_settings
@@ -17,9 +20,11 @@ def main() -> None:
     cfg = load_settings()
     motor = crear_motor(cfg.database_url)
     Base.metadata.create_all(motor)
-    clave = getpass.getpass("Contraseña: ")
-    if clave != getpass.getpass("Repetir: "):
-        sys.exit("Las contraseñas no coinciden")
+    clave = os.environ.get("CT_CLAVE")
+    if not clave:
+        clave = getpass.getpass("Contraseña: ")
+        if clave != getpass.getpass("Repetir: "):
+            sys.exit("Las contraseñas no coinciden")
     with crear_fabrica(motor)() as db:
         if db.query(Usuario).filter_by(usuario=usuario).first():
             sys.exit("El usuario ya existe")
