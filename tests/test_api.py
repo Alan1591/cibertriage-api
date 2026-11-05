@@ -182,3 +182,15 @@ def test_assetlinks_y_apk(cliente):
     r = cliente.get("/.well-known/assetlinks.json")
     assert r.status_code == 200 and r.json()[0]["target"]["package_name"] == "ar.gob.entrerios.reportedigital"
     assert cliente.get("/static/app.apk").status_code == 200
+
+
+def test_usuario_revisor_inicial_con_rol_de_auditoria(tmp_path):
+    cfg = Settings(database_url=f"sqlite:///{tmp_path/'r.db'}", secret_key="k" * 40,
+                   encryption_key=bytes(range(32)), admin_user="admin", admin_password=PASS,
+                   revisor_user="Profesor.Prueba", revisor_password="Revisor-Seguro1")
+    with TestClient(create_app(cfg)) as c:
+        r = c.post("/api/auth/login", json={"usuario": "profesor.prueba", "password": "Revisor-Seguro1"})
+        assert r.status_code == 200
+        h = {"Authorization": f"Bearer {r.json()['access_token']}"}
+        assert c.get("/api/reportes", headers=h).status_code == 200
+        assert c.get("/api/auditoria", headers=h).status_code == 403  # la bitácora es solo del administrador

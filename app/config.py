@@ -36,6 +36,9 @@ class Settings:
     admin_user: str = ""
     admin_password: str = ""
     admin_name: str = "Administrador"
+    revisor_user: str = ""
+    revisor_password: str = ""
+    revisor_name: str = "Revisor"
 
 
 def load_settings() -> Settings:
@@ -57,4 +60,7 @@ def load_settings() -> Settings:
         admin_user=os.getenv("ADMIN_USER", ""),
         admin_password=os.getenv("ADMIN_PASSWORD", ""),
         admin_name=os.getenv("ADMIN_NAME", "Administrador"),
+        revisor_user=os.getenv("REVISOR_USER", ""),
+        revisor_password=os.getenv("REVISOR_PASSWORD", ""),
+        revisor_name=os.getenv("REVISOR_NAME", "Revisor"),
     )
