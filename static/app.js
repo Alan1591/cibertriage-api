@@ -2,7 +2,7 @@
 (() => {
   'use strict';
   const $ = (id) => document.getElementById(id);
-  let sesion = null; // {access, refresh, nombre}
+  let sesion = null; // {access, refresh, nombre, rol}
 
   const el = (tag, props = {}, ...hijos) => {
     const e = document.createElement(tag);
@@ -91,6 +91,9 @@
     $('panel-triage-container').classList.add('d-none');
     $('login-policial-container').classList.remove('d-none');
     $('tabla-reportes-pendientes').replaceChildren();
+    $('tabla-bitacora').replaceChildren();
+    $('estado-cadena').replaceChildren();
+    $('seccion-bitacora').classList.add('d-none');
     $('password-policial').value = '';
     if (mensaje) { $('login-error').textContent = mensaje; $('login-error').classList.remove('d-none'); }
   }
@@ -104,12 +107,13 @@
     });
     if (!r.ok) { err.textContent = await detalleError(r); err.classList.remove('d-none'); return; }
     const d = await r.json();
-    sesion = { access: d.access_token, refresh: d.refresh_token, nombre: d.usuario };
+    sesion = { access: d.access_token, refresh: d.refresh_token, nombre: d.usuario, rol: d.rol };
     $('password-policial').value = '';
     $('nombre-sesion').textContent = d.usuario;
     $('login-policial-container').classList.add('d-none');
     $('panel-triage-container').classList.remove('d-none');
     cargarReportes();
+    cargarBitacora();
   });
 
   $('btn-cerrar-sesion').addEventListener('click', async () => {
@@ -147,11 +151,32 @@
     }));
   }
 
+  // ---------- Bitácora de auditoría (solo administrador) ----------
+  async function cargarBitacora() {
+    const seccion = $('seccion-bitacora');
+    if (!sesion || sesion.rol !== 'administrador') { seccion.classList.add('d-none'); return; }
+    const r = await api('/api/auditoria');
+    if (!r.ok) { seccion.classList.add('d-none'); return; }
+    const d = await r.json();
+    seccion.classList.remove('d-none');
+    const v = d.verificacion;
+    $('estado-cadena').replaceChildren(el('div', { className: `alert alert-${v.integra ? 'success' : 'danger'} py-2 mb-0` },
+      el('strong', { textContent: v.integra ? 'Cadena íntegra' : 'Cadena alterada' }),
+      v.integra ? ` — ${v.registros} registros verificados.` : ` — primer registro con error: n.° ${v.primer_error_id}.`));
+    $('tabla-bitacora').replaceChildren(...d.registros.map((a) => el('tr', {},
+      el('td', { textContent: a.id }),
+      el('td', { textContent: fmt(a.fecha) }),
+      el('td', { textContent: a.actor }),
+      el('td', {}, el('code', { textContent: a.accion })),
+      el('td', { textContent: a.detalle || '' }))));
+  }
+  $('btn-actualizar-bitacora').addEventListener('click', cargarBitacora);
+
   async function cambiarEstado(id, estado) {
     const r = await api(`/api/reportes/${id}/estado`, {
       method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ estado }),
     });
-    if (r.ok) cargarReportes();
+    if (r.ok) { cargarReportes(); cargarBitacora(); }
   }
 
   async function descargar(ev, e) {

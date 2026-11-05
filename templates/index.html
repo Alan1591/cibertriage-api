@@ -408,6 +408,34 @@
                     <tbody id="tabla-reportes-pendientes"></tbody>
                 </table>
             </div>
+
+            <!-- BITACORA DE AUDITORIA (solo administrador) -->
+            <div id="seccion-bitacora" class="d-none mt-5">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <h5 class="fw-bold text-dark mb-0">
+                        <i class="fa-solid fa-clipboard-list me-2 text-primary"></i>Bitácora de auditoría
+                    </h5>
+                    <button id="btn-actualizar-bitacora" class="btn btn-sm btn-outline-primary fw-bold" type="button">
+                        <i class="fa-solid fa-rotate me-1"></i>Actualizar
+                    </button>
+                </div>
+                <p class="small text-muted mb-2">Registro encadenado de las acciones realizadas en el sistema (ingresos, cambios de estado, descargas de evidencia). Visible solo para el rol Administrador. Se muestran los 200 registros más recientes.</p>
+                <div id="estado-cadena" class="mb-2"></div>
+                <div class="table-responsive">
+                    <table class="table table-sm table-bordered align-middle bg-white shadow-sm">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>N.°</th>
+                                <th>Fecha</th>
+                                <th>Usuario</th>
+                                <th>Acción</th>
+                                <th>Detalle</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-bitacora"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
     </div>

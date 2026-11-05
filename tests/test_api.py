@@ -160,7 +160,9 @@ def test_inactividad_vence_la_sesion(cliente):
 def test_bitacora_encadenada_integra_y_detecta_cambios(cliente):
     cliente.post("/api/reportes", data=datos())
     h = auth(cliente)
-    assert cliente.get("/api/auditoria", headers=h).json()["verificacion"]["integra"] is True
+    audit = cliente.get("/api/auditoria", headers=h).json()
+    assert audit["verificacion"]["integra"] is True
+    assert audit["registros"][0]["fecha"].endswith("+00:00")  # con zona horaria, para mostrarla bien en el navegador
     from sqlalchemy import text
     from app.database import crear_motor
     with crear_motor(cliente.app_.state.settings.database_url).begin() as cx:

@@ -372,7 +372,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     def ver_auditoria(u: Usuario = Depends(requiere("administrador")), db: Session = Depends(get_db)):
         filas = db.scalars(select(audit.Auditoria).order_by(audit.Auditoria.id.desc()).limit(200)).all()
         return {"verificacion": audit.verificar_cadena(db),
-                "registros": [{"id": a.id, "fecha": a.fecha.isoformat(), "actor": a.actor,
+                "registros": [{"id": a.id, "fecha": _utc(a.fecha).isoformat(), "actor": a.actor,
                                "accion": a.accion, "detalle": a.detalle, "ip": a.ip} for a in filas]}
 
     # ---------- cabeceras de seguridad y estáticos ----------
