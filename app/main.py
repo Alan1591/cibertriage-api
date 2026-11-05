@@ -411,4 +411,12 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                 db.add(Usuario(usuario=cfg.admin_user.lower(), nombre=cfg.admin_name,
                                password_hash=passwords.hashear(cfg.admin_password), rol="administrador"))
                 db.commit()
+
+    # ---------- usuario revisor (rol oficial_auditoria), p. ej. para el docente ----------
+    if cfg.revisor_user and cfg.revisor_password:
+        with Sesionbd() as db:
+            if not db.scalar(select(Usuario).where(Usuario.usuario == cfg.revisor_user.lower())):
+                db.add(Usuario(usuario=cfg.revisor_user.lower(), nombre=cfg.revisor_name,
+                               password_hash=passwords.hashear(cfg.revisor_password), rol="oficial_auditoria"))
+                db.commit()
     return app
