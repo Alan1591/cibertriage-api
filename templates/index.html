@@ -319,14 +319,14 @@
                                 <div class="alert alert-light border border-secondary mt-3 p-3 text-secondary small rounded-3">
                                     <p class="mb-2 fw-bold text-dark"><i class="fa-solid fa-shield-halved text-primary me-1"></i> Tratamiento Técnico-Policial de la Evidencia Digital:</p>
                                     <ul class="mb-0 ps-3">
-                                        <li><strong>Integridad (Hash SHA-256):</strong> A cada archivo recibido se le calcula una huella criptográfica SHA-256 única para verificar su integridad y asegurar que no sufra modificaciones tras su recepción.</li>
-                                        <li><strong>Cadena de Custodia Integral:</strong> El cálculo del hash no constituye por sí solo la cadena de custodia. Para fortalecer el valor probatorio, el sistema aplica un ciclo de gestión procedural e informático que contempla:
+                                        <li><strong>Integridad (huella SHA-256):</strong> A cada archivo recibido se le calcula una huella criptográfica SHA-256 que permite detectar modificaciones posteriores respecto del valor registrado en la recepción.</li>
+                                        <li><strong>Alcance de la huella:</strong> No acredita por sí sola el origen del archivo ni constituye la cadena de custodia completa, que exige además registros de acceso, ratificación presencial y, cuando corresponda, pericia. El sistema aporta estos controles:
                                             <ul>
-                                                <li><strong>Autenticación:</strong> Verificación de la identidad del remitente u operador mediante validación de usuario y metadatos.</li>
-                                                <li><strong>Autorización:</strong> Control estricto de accesos basado en roles para personal policial auditado.</li>
-                                                <li><strong>Cifrado:</strong> Cifrado de archivos en tránsito (HTTPS / TLS) y en reposo para evitar accesos indebidos.</li>
-                                                <li><strong>Auditoría:</strong> Bitácora encadenada y verificable (logs) de cada consulta, acceso o descarga realizada sobre la evidencia.</li>
-                                                <li><strong>Conservación y Transferencia:</strong> Almacenamiento cifrado y verificable por huella SHA-256 hasta su remisión formal a la fiscalía u organismo judicial interviniente.</li>
+                                                <li><strong>Autenticación del personal:</strong> Usuario y contraseña, bloqueo tras intentos fallidos y sesiones con vencimiento.</li>
+                                                <li><strong>Autorización:</strong> Control de accesos basado en roles para el personal autorizado.</li>
+                                                <li><strong>Cifrado:</strong> Archivos y datos cifrados en reposo y comunicaciones protegidas con HTTPS.</li>
+                                                <li><strong>Auditoría:</strong> Bitácora encadenada y verificable de accesos, descargas y cambios de estado.</li>
+                                                <li><strong>Conservación:</strong> Almacenamiento cifrado y verificación de la huella al descargar, hasta su remisión formal a las autoridades competentes.</li>
                                             </ul>
                                         </li>
                                     </ul>
