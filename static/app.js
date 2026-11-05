@@ -6,7 +6,10 @@
 
   // Modo app móvil (/app): solo ciudadanía -> Ventana 1 (consulta) y Ventana 2 (reporte).
   // La Ventana 3 (auditoría) se oculta; igualmente la API exige credenciales para esos datos.
-  if (location.pathname === '/app') {
+  const enApp = /^\/app\/?$/.test(location.pathname) ||
+    (window.matchMedia && matchMedia('(display-mode: standalone)').matches) ||
+    document.referrer.startsWith('android-app://');
+  if (enApp) {
     const ocultar = (e) => e && e.classList.add('d-none');
     const tabAud = $('tab-auditoria-tab');
     ocultar(tabAud && tabAud.closest('li'));
