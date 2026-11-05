@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "ar.gob.entrerios.reportedigital",
+        "sha256_cert_fingerprints": ["39:96:43:49:99:CD:83:8A:59:77:9E:D1:04:26:CF:8B:00:6A:B4:91:6F:DB:B7:F0:B8:9F:21:31:AE:63:29:B9"]
+      }
+    }]

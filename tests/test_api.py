@@ -176,3 +176,9 @@ def test_app_movil_y_pwa(cliente):
     assert cliente.get("/static/manifest.webmanifest").json()["start_url"] == "/app"
     sw = cliente.get("/sw.js")
     assert sw.status_code == 200 and "javascript" in sw.headers["content-type"]
+
+
+def test_assetlinks_y_apk(cliente):
+    r = cliente.get("/.well-known/assetlinks.json")
+    assert r.status_code == 200 and r.json()[0]["target"]["package_name"] == "ar.gob.entrerios.reportedigital"
+    assert cliente.get("/static/app.apk").status_code == 200

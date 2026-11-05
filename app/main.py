@@ -407,6 +407,11 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         # Misma interfaz, sin la Ventana 3 (auditoría): es la entrada de la app móvil ciudadana.
         return FileResponse(BASE / "templates" / "index.html")
 
+    @app.get("/.well-known/assetlinks.json")
+    def assetlinks():
+        # Vincula el sitio con la app Android (pantalla completa, sin barra del navegador).
+        return FileResponse(BASE / "static" / "assetlinks.json", media_type="application/json")
+
     @app.get("/sw.js")
     def service_worker():
         return FileResponse(BASE / "static" / "sw.js", media_type="application/javascript")
