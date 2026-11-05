@@ -67,6 +67,7 @@ def armar(n: int, rnd: random.Random):
         "domicilio": "Calle Inventada 123, Paraná, Entre Ríos",
         "tipologia_delito": tip, "monto_estimado_ars": str(rnd.choice([15000, 40000, 85000, 120000, 250000, 480000])),
         "descripcion_hecho": f"[DATO FICTICIO] {RELATOS[tip]}",
+        "consentimiento": "true",
     }
     # 1 a 2 indicadores por reporte; muchos se repiten a propósito
     opciones = [

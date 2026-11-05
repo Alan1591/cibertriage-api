@@ -204,10 +204,14 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         descripcion_hecho: str = Form(...),
         cbu_cvu_sospechoso: str = Form(""), alias_sospechoso: str = Form(""),
         telefono_sospechoso: str = Form(""), url_sitio_falso: str = Form(""),
+        consentimiento: str = Form(""),
         archivo: list[UploadFile] = File(default=[]),
         db: Session = Depends(get_db),
     ):
         limitar(lim_reporte, request)
+        # Ley 25.326: el tratamiento exige consentimiento informado (aviso de privacidad aceptado).
+        if consentimiento.strip().lower() not in ("true", "on", "1", "si", "sí"):
+            raise HTTPException(422, "Debe aceptar el aviso de privacidad para enviar el reporte")
         if tipologia_delito not in TIPOLOGIAS:
             raise HTTPException(422, "Tipología no válida")
         if not (10 <= len(descripcion_hecho.strip()) <= 5000):
@@ -265,7 +269,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                 contenido_cifrado=crypto.cifrar(cfg.encryption_key, contenido, aad)))
         db.add(rep)
         audit.registrar(db, "ciudadano", "REPORTE_RECIBIDO",
-                        f"{ticket}; iocs={len(indicadores)}; evidencias={len(evidencias)}", ip_de(request))
+                        f"{ticket}; iocs={len(indicadores)}; evidencias={len(evidencias)}; consentimiento=aviso-v1", ip_de(request))
         return {"ticket": ticket, "evidencias": [
             {"nombre": n, "sha256": crypto.sha256_hex(c)} for n, _, c in evidencias]}
 

@@ -31,7 +31,8 @@ def cliente(tmp_path):
 
 def datos(**extra):
     base = {"cuil_dni": "20123456786", "nombre_apellido": "Ana Pérez", "tipologia_delito": "Phishing / Suplantación de Identidad",
-            "descripcion_hecho": "Me estafaron con un link falso de banco.", "alias_sospechoso": "cuenta.falsa.mp"}
+            "descripcion_hecho": "Me estafaron con un link falso de banco.", "alias_sospechoso": "cuenta.falsa.mp",
+            "consentimiento": "true"}
     base.update(extra)
     return base
 
@@ -194,3 +195,10 @@ def test_usuario_revisor_inicial_con_rol_de_auditoria(tmp_path):
         h = {"Authorization": f"Bearer {r.json()['access_token']}"}
         assert c.get("/api/reportes", headers=h).status_code == 200
         assert c.get("/api/auditoria", headers=h).status_code == 403  # la bitácora es solo del administrador
+
+
+def test_reporte_exige_consentimiento_informado(cliente):
+    sin = datos(); sin.pop("consentimiento")
+    r = cliente.post("/api/reportes", data=sin)
+    assert r.status_code == 422 and "privacidad" in r.json()["detail"].lower()
+    assert cliente.post("/api/reportes", data=datos()).status_code == 201
